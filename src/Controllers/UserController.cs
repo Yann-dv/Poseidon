@@ -1,76 +1,115 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dot.Net.WebApi.Domain;
-using Dot.Net.WebApi.Repositories;
+using Dot.Net.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
- 
-namespace Dot.Net.WebApi.Controllers
+using Microsoft.EntityFrameworkCore;
+
+
+namespace PoseidonApi.Controllers
 {
-    [Route("[controller]")]
-    public class UserController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
     {
-        private UserRepository _userRepository;
+        private readonly ApiDbContext _dbContext;
 
-        public UserController(UserRepository userRepository)
+        public UserController(ApiDbContext dbContext)
         {
-            _userRepository = userRepository;
+            _dbContext = dbContext;
         }
 
-        [HttpGet("/user/list")]
-        public IActionResult Home()
+        // GET: api/Users
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserItemDTO>>> GetUsers()
         {
-            return View(_userRepository.FindAll());
+            return await _dbContext.Users
+                .Select(x => UserItemToDTO(x))
+                .ToListAsync();
         }
 
-        [HttpGet("/user/add")]
-        public IActionResult AddUser([FromBody]User user)
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserItemDTO>> GetUserItem(long id)
         {
-            return View("user/add");
-        }
+            var userItem = await _dbContext.Users.FindAsync(id);
 
-        [HttpGet("/user/validate")]
-        public IActionResult Validate([FromBody]User user)
-        {
-            if (!ModelState.IsValid)
+            if (userItem == null)
             {
-                return Redirect("user/add");
+                return NotFound();
             }
-           
-           _userRepository.Add(user);
-           
-            return Redirect("user/list");
+
+            return UserItemToDTO(userItem);
         }
 
-        [HttpGet("/user/update/{id}")]
-        public IActionResult ShowUpdateForm(int id)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUserItem(long id, UserItemDTO UserItemDTO)
         {
-            User user = _userRepository.FindById(id);
-            
-            if (user == null)
-                throw new ArgumentException("Invalid user Id:" + id);
-            
-            return View("user/update");
+            if (id != UserItemDTO.Id)
+            {
+                return BadRequest();
+            }
+
+            var userItem = await _dbContext.Users.FindAsync(id);
+            if (userItem == null)
+            {
+                return NotFound();
+            }
+
+            userItem.Fullname = UserItemDTO.Fullname;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) when (!UserItemExists(id))
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
 
-        [HttpPost("/user/update/{id}")]
-        public IActionResult updateUser(int id, [FromBody] User user)
+        [HttpPost]
+        public async Task<ActionResult<UserItemDTO>> CreateUserItem(UserItemDTO UserItemDTO)
         {
-            // TODO: check required fields, if valid call service to update Trade and return Trade list
-            return Redirect("/trade/list");
+            var userItem = new UserItem
+            {
+                Fullname = UserItemDTO.Fullname
+            };
+
+            _dbContext.Users.Add(userItem);
+            await _dbContext.SaveChangesAsync();
+
+            return CreatedAtAction(
+                nameof(GetUserItem),
+                new { id = userItem.Id },
+                UserItemToDTO(userItem));
         }
 
-        [HttpDelete("/user/{id}")]
-        public IActionResult DeleteUser(int id)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUserItem(long id)
         {
-            User user = _userRepository.FindById(id);
-            
-            if (user == null)
-                throw new ArgumentException("Invalid user Id:" + id);
-                        
-            return Redirect("/user/list");
+            var userItem = await _dbContext.Users.FindAsync(id);
+
+            if (userItem == null)
+            {
+                return NotFound();
+            }
+
+            _dbContext.Users.Remove(userItem);
+            await _dbContext.SaveChangesAsync();
+
+            return NoContent();
         }
+
+        private bool UserItemExists(long id) =>
+            _dbContext.Users.Any(e => e.Id == id);
+
+        private static UserItemDTO UserItemToDTO(UserItem userItem) =>
+            new UserItemDTO
+            {
+                Id = userItem.Id,
+                Fullname = userItem.Fullname,
+            };
     }
 }
