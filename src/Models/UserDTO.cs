@@ -1,8 +1,8 @@
 namespace Dot.Net.WebApi.Models;
 
-public class UserItemDTO
+public class UserDTO
 {
-    public int Id;
+    public long Id;
     public string Username;
     public string Password;
     public string Fullname;

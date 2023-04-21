@@ -21,7 +21,7 @@ namespace PoseidonApi.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserItemDTO>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             return await _dbContext.Users
                 .Select(x => UserItemToDTO(x))
@@ -29,7 +29,7 @@ namespace PoseidonApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserItemDTO>> GetUserItem(long id)
+        public async Task<ActionResult<UserDTO>> GetUserItem(long id)
         {
             var userItem = await _dbContext.Users.FindAsync(id);
 
@@ -42,9 +42,9 @@ namespace PoseidonApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUserItem(long id, UserItemDTO UserItemDTO)
+        public async Task<IActionResult> UpdateUserItem(long id, UserDTO userDto)
         {
-            if (id != UserItemDTO.Id)
+            if (id != userDto.Id)
             {
                 return BadRequest();
             }
@@ -55,7 +55,7 @@ namespace PoseidonApi.Controllers
                 return NotFound();
             }
 
-            userItem.Fullname = UserItemDTO.Fullname;
+            userItem.Fullname = userDto.Fullname;
 
             try
             {
@@ -70,11 +70,11 @@ namespace PoseidonApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserItemDTO>> CreateUserItem(UserItemDTO UserItemDTO)
+        public async Task<ActionResult<UserDTO>> CreateUserItem(UserDTO userDto)
         {
-            var userItem = new UserItem
+            var userItem = new User
             {
-                Fullname = UserItemDTO.Fullname
+                Fullname = userDto.Fullname
             };
 
             _dbContext.Users.Add(userItem);
@@ -105,11 +105,11 @@ namespace PoseidonApi.Controllers
         private bool UserItemExists(long id) =>
             _dbContext.Users.Any(e => e.Id == id);
 
-        private static UserItemDTO UserItemToDTO(UserItem userItem) =>
-            new UserItemDTO
+        private static UserDTO UserItemToDTO(User user) =>
+            new UserDTO
             {
-                Id = userItem.Id,
-                Fullname = userItem.Fullname,
+                Id = user.Id,
+                Fullname = user.Fullname,
             };
     }
 }
