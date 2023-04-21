@@ -10,6 +10,6 @@ namespace Dot.Net.WebApi.Models
         {
         }
 
-        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<UserItem> Users { get; set; } = null!;
     }
 }

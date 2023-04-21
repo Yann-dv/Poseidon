@@ -1,6 +1,6 @@
 namespace Dot.Net.WebApi.Models
 {
-    public class User
+    public class UserItem
     {
         public int Id;
         public string Username;
