@@ -14,13 +14,13 @@ namespace PoseidonApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly ApiDbContext _dbContext;
-        private readonly ColorConsoleLogger _logger;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
         /// <inheritdoc />
-        public UserController(ApiDbContext dbContext, ColorConsoleLogger logger)
+        public UserController(ApiDbContext dbContext) //, IServiceScopeFactory serviceScopeFactory)
         {
             _dbContext = dbContext;
-            _logger = logger;
+           // _serviceScopeFactory = serviceScopeFactory;
         }
 
         // GET: api/Users
@@ -30,9 +30,17 @@ namespace PoseidonApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            _logger.LogError("error");
-            _logger.LogWarning("warning");
-            _logger.LogInformation("info");
+            /*var loggerFactory = _serviceScopeFactory.CreateScope()
+                    .ServiceProvider.GetRequiredService<ILogger<LoggerFactory>>();
+           using var loggerConsole = LoggerFactory.Create(loggingBuilder => loggingBuilder
+                .SetMinimumLevel(LogLevel.Trace)
+                .AddConsole());*/
+            /*using var loggerFactoryx = LoggerFactory.Create(loggingBuilder => loggingBuilder
+                .SetMinimumLevel(LogLevel.Trace)
+                .AddConsole());*/
+            
+            //ILogger logger = loggerConsole.CreateLogger<Program>();
+            //logger.LogInformation(1, "GetUsers() called");
             
             return await _dbContext.Users
                 .Select(x => UserToDTO(x))
