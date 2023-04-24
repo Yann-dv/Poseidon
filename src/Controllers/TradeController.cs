@@ -5,36 +5,41 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PoseidonApi.Models;
 
 namespace PoseidonApi.Controllers
 {
+    /// <inheritdoc />
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class TradeController : ControllerBase
     {
         private readonly ApiDbContext _dbContext;
 
+        /// <inheritdoc />
         public TradeController(ApiDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         // GET: api/Trade
+        /// <summary>
+        /// Get all Trades.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TradeDTO>>> GetTrades()
         {
-            if (_dbContext.Trades == null)
-            {
-                return NotFound();
-            }
-
             return await _dbContext.Trades
                 .Select(x => TradeToDTO(x))
                 .ToListAsync();
         }
 
         // GET: api/Trade/5
+        /// <summary>
+        /// Get a specific Trade.
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<TradeDTO>> GetTrade(long id)
         {
@@ -48,7 +53,10 @@ namespace PoseidonApi.Controllers
             return TradeToDTO(trade);
         }
 
-        // PUT: api/Trade/5
+        /// <summary>
+        /// Update a specific Trade.
+        /// </summary>
+        /// <param name="id"></param>
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTrade(long id, TradeDTO tradeDto)
@@ -89,7 +97,27 @@ namespace PoseidonApi.Controllers
         ///
         ///     POST
         ///     {
-        ///        "Id": (auto generated)
+        ///     "Id": (auto generated)
+        ///     "Account": "SampleAccount",
+        ///     "Type": "SampleType",
+        ///     "BuyQuantity": 0,
+        ///     "SellQuantity": 0,
+        ///     "BuyPrice": 0,
+        ///     "SellPrice": 0,
+        ///     "Benchmark": "SampleBenchmark",
+        ///     "TradeDate": "2021-03-01T00:00:00",
+        ///     "Security": "SampleSecurity",
+        ///     "Status": "SampleStatus",
+        ///     "Trader": "SampleTrader",
+        ///     "Book": "SampleBook",
+        ///     "CreationName": "SampleCreationName",
+        ///     "CreationDate": "2021-03-01T00:00:00",
+        ///     "RevisionName": "SampleRevisionName",
+        ///     "RevisionDate": "2021-03-01T00:00:00",
+        ///     "DealName": "SampleDealName",
+        ///     "DealType": "SampleDealType",
+        ///     "SourceListId": "SampleSourceListId",
+        ///     "Side": "SampleSide",
         ///     }
         ///
         /// </remarks>
@@ -102,11 +130,29 @@ namespace PoseidonApi.Controllers
             {
                 return Problem("Entity set 'ApiDbContext.Trades'  is null.");
             }
-            
+
             var newRule = new Trade()
             {
-                Account = tradeDto.Account,
-                //TODO: to complete
+                Account = tradeDto.Account.IsNullOrEmpty() ? "SampleAccount" : tradeDto.Account,
+                Type = tradeDto.Type.IsNullOrEmpty() ? "SampleType" : tradeDto.Type,
+                BuyQuantity = tradeDto.BuyQuantity == 0 ? 0 : tradeDto.BuyQuantity,
+                SellQuantity = tradeDto.SellQuantity == 0 ? 0 : tradeDto.SellQuantity,
+                BuyPrice = tradeDto.BuyPrice == 0 ? 0 : tradeDto.BuyPrice,
+                SellPrice = tradeDto.SellPrice == 0 ? 0 : tradeDto.SellPrice,
+                Benchmark = tradeDto.Benchmark.IsNullOrEmpty() ? "SampleBenchmark" : tradeDto.Benchmark,
+                TradeDate = tradeDto.TradeDate == DateTime.MinValue ? DateTime.MinValue : tradeDto.TradeDate,
+                Security = tradeDto.Security.IsNullOrEmpty() ? "SampleSecurity" : tradeDto.Security,
+                Status = tradeDto.Status.IsNullOrEmpty() ? "SampleStatus" : tradeDto.Status,
+                Trader = tradeDto.Trader.IsNullOrEmpty() ? "SampleTrader" : tradeDto.Trader,
+                Book = tradeDto.Book.IsNullOrEmpty() ? "SampleBook" : tradeDto.Book,
+                CreationName = tradeDto.CreationName.IsNullOrEmpty() ? "SampleCreationName" : tradeDto.CreationName,
+                CreationDate = tradeDto.CreationDate == DateTime.MinValue ? DateTime.MinValue : tradeDto.CreationDate,
+                RevisionName = tradeDto.RevisionName.IsNullOrEmpty() ? "SampleRevisionName" : tradeDto.RevisionName,
+                RevisionDate = tradeDto.RevisionDate == DateTime.MinValue ? DateTime.MinValue : tradeDto.RevisionDate,
+                DealName = tradeDto.DealName.IsNullOrEmpty() ? "SampleDealName" : tradeDto.DealName,
+                DealType = tradeDto.DealType.IsNullOrEmpty() ? "SampleDealType" : tradeDto.DealType,
+                SourceListId = tradeDto.SourceListId.IsNullOrEmpty() ? "SampleSourceListId" : tradeDto.SourceListId,
+                Side = tradeDto.Side.IsNullOrEmpty() ? "SampleSide" : tradeDto.Side,
             };
 
             _dbContext.Trades.Add(newRule);

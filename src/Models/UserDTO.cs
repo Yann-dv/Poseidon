@@ -9,7 +9,7 @@ public class UserDTO
     public string Username  { get; set; }
     
     /// <example>John Doe</example>
-    public string Fullname  { get; set; }
+    public string? Fullname  { get; set; }
     
     /// <example>p@sswrd123</example>
     public string Password  { get; set; }
