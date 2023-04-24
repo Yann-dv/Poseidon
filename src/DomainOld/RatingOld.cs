@@ -1,6 +1,6 @@
-namespace Dot.Net.WebApi.Controllers.Domain
+namespace PoseidonApi.Controllers.Domain
 {
-    public class Rating
+    public class RatingOld
     {
         // TODO: Map columns in data table RATING with corresponding fields
     }
