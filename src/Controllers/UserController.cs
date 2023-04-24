@@ -1,76 +1,154 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dot.Net.WebApi.Domain;
-using Dot.Net.WebApi.Repositories;
+using PoseidonApi.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
- 
-namespace Dot.Net.WebApi.Controllers
+using Microsoft.EntityFrameworkCore;
+
+
+namespace PoseidonApi.Controllers
 {
-    [Route("[controller]")]
-    public class UserController : Controller
+    [Route("api/[controller]")]
+    [Produces("application/json")]
+    [ApiController]
+    public class UserController : ControllerBase
     {
-        private UserRepository _userRepository;
+        private readonly ApiDbContext _dbContext;
 
-        public UserController(UserRepository userRepository)
+        public UserController(ApiDbContext dbContext)
         {
-            _userRepository = userRepository;
+            _dbContext = dbContext;
         }
 
-        [HttpGet("/user/list")]
-        public IActionResult Home()
+        // GET: api/Users
+        /// <summary>
+        /// Get all Users.
+        /// </summary>
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            return View(_userRepository.FindAll());
+            return await _dbContext.Users
+                .Select(x => UserToDTO(x))
+                .ToListAsync();
         }
 
-        [HttpGet("/user/add")]
-        public IActionResult AddUser([FromBody]User user)
+        /// <summary>
+        /// Get a specific User.
+        /// </summary>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserDTO>> GetUser(long id)
         {
-            return View("user/add");
-        }
+            var user = await _dbContext.Users.FindAsync(id);
 
-        [HttpGet("/user/validate")]
-        public IActionResult Validate([FromBody]User user)
-        {
-            if (!ModelState.IsValid)
+            if (user == null)
             {
-                return Redirect("user/add");
+                return NotFound();
             }
-           
-           _userRepository.Add(user);
-           
-            return Redirect("user/list");
+
+            return UserToDTO(user);
         }
 
-        [HttpGet("/user/update/{id}")]
-        public IActionResult ShowUpdateForm(int id)
+        /// <summary>
+        /// Update a specific User.
+        /// </summary>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateUser(long id, UserDTO userDto)
         {
-            User user = _userRepository.FindById(id);
-            
-            if (user == null)
-                throw new ArgumentException("Invalid user Id:" + id);
-            
-            return View("user/update");
+            if (id != userDto.Id)
+            {
+                return BadRequest();
+            }
+
+            var userItem = await _dbContext.Users.FindAsync(id);
+            if (userItem == null)
+            {
+                return NotFound();
+            }
+
+            userItem.Fullname = userDto.Fullname;
+
+            try
+            {
+                await _dbContext.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException) when (!UserExists(id))
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
 
-        [HttpPost("/user/update/{id}")]
-        public IActionResult updateUser(int id, [FromBody] User user)
+        /// <summary>
+        /// Creates a new User.
+        /// </summary>
+        /// <param name="User"></param>
+        /// <returns>A newly created User</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///        "Id": (auto generated)
+        ///        "Username": "SampleUsername",
+        ///        "Fullname": "Sample Fullname",
+        ///        "Password": "MyPassword123"?
+        ///        "Role": "Employee"
+        ///     }
+        ///
+        /// </remarks>
+        [HttpPost]
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UserDTO>> CreateUser(UserDTO userDto)
         {
-            // TODO: check required fields, if valid call service to update Trade and return Trade list
-            return Redirect("/trade/list");
+            var newUser = new User
+            {
+                Username = userDto.Username,
+                Fullname = userDto.Fullname,
+                Password = userDto.Password
+            };
+
+            _dbContext.Users.Add(newUser);
+            await _dbContext.SaveChangesAsync();
+
+            return CreatedAtAction(
+                nameof(GetUser),
+                new { id = newUser.Id },
+                UserToDTO(newUser));
         }
 
-        [HttpDelete("/user/{id}")]
-        public IActionResult DeleteUser(int id)
+        /// <summary>
+        /// Deletes a specific User.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUser(long id)
         {
-            User user = _userRepository.FindById(id);
-            
-            if (user == null)
-                throw new ArgumentException("Invalid user Id:" + id);
-                        
-            return Redirect("/user/list");
+            var userItem = await _dbContext.Users.FindAsync(id);
+
+            if (userItem == null)
+            {
+                return NotFound();
+            }
+
+            _dbContext.Users.Remove(userItem);
+            await _dbContext.SaveChangesAsync();
+
+            return NoContent();
         }
+
+        private bool UserExists(long id) =>
+            _dbContext.Users.Any(e => e.Id == id);
+
+        private static UserDTO UserToDTO(User user) =>
+            new UserDTO
+            {
+                Id = user.Id,
+                Username = user.Username,
+                Fullname = user.Fullname,
+                Password = user.Password
+            };
     }
 }

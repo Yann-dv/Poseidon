@@ -1,6 +1,6 @@
-namespace Dot.Net.WebApi.Domain
+namespace PoseidonApi.Domain
 {
-    public class User
+    public class UserOld
     {
         public string UserName { get; set; }
     }

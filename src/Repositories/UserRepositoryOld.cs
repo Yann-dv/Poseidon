@@ -1,12 +1,13 @@
-using Dot.Net.WebApi.Data;
+using PoseidonApi.Data;
 using System.Linq;
-using Dot.Net.WebApi.Domain;
+using PoseidonApi.Domain;
 using System;
 using System.Collections.ObjectModel;
 
-namespace Dot.Net.WebApi.Repositories
+namespace PoseidonApi.Repositories
 {
-    public class UserRepository
+    // TO DELETE
+    /*public class UserRepository
     {
         public LocalDbContext DbContext { get; }
 
@@ -15,24 +16,24 @@ namespace Dot.Net.WebApi.Repositories
             DbContext = dbContext;
         }
 
-        public User FindByUserName(string userName)
+        public UserOld FindByUserName(string userName)
         {
             return DbContext.Users.Where(user => user.UserName == userName)
                                   .FirstOrDefault();
         }
 
-        public User[] FindAll()
+        public UserOld[] FindAll()
         {
             return DbContext.Users.ToArray();
         }
 
-        public void Add(User user)
+        public void Add(UserOld userOld)
         {
         }
 
-        public User FindById(int id)
+        public UserOld FindById(int id)
         {
             return null;
         }
-    }
+    }*/
 }

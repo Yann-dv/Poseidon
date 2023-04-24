@@ -1,6 +1,6 @@
-namespace Dot.Net.WebApi.Controllers
+namespace PoseidonApi.Controllers
 {
-    public class RuleName
+    public class RuleNameOld
     {
         // TODO: Map columns in data table RULENAME with corresponding fields
     }

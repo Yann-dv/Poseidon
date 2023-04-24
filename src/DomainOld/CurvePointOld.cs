@@ -1,6 +1,6 @@
-namespace Dot.Net.WebApi.Domain
+namespace PoseidonApi.Domain
 {
-    public class CurvePoint
+    public class CurvePointOld
     {
         // TODO: Map columns in data table CURVEPOINT with corresponding fields
     }

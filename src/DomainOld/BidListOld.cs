@@ -1,6 +1,6 @@
-namespace Dot.Net.WebApi.Domain
+namespace PoseidonApi.Domain
 {
-    public class BidList
+    public class BidListOld
     {
         // TODO: Map columns in data table BIDLIST with corresponding fields
     }
