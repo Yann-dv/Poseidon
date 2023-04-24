@@ -10,6 +10,7 @@ using PoseidonApi.Models;
 namespace PoseidonApi.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class CurvePointController : ControllerBase
     {
@@ -24,13 +25,14 @@ namespace PoseidonApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CurvePointDTO>>> GetCurvePoints()
         {
-          if (_dbContext.CurvePoints == null)
-          {
-              return NotFound();
-          }
-          return await _dbContext.CurvePoints
-              .Select(x => CurvePointToDTO(x))
-              .ToListAsync();
+            if (_dbContext.CurvePoints == null)
+            {
+                return NotFound();
+            }
+
+            return await _dbContext.CurvePoints
+                .Select(x => CurvePointToDTO(x))
+                .ToListAsync();
         }
 
         // GET: api/CurvePoint/5
@@ -83,16 +85,16 @@ namespace PoseidonApi.Controllers
         [HttpPost]
         public async Task<ActionResult<CurvePointDTO>> PostCurvePoint(CurvePointDTO curvePointDto)
         {
-          if (_dbContext.CurvePoints == null)
-          {
-              return Problem("Entity set 'ApiDbContext.CurvePoints'  is null.");
-          }
-          
-          var newCurvePoint = new CurvePoint()
-          {
-              Term = curvePointDto.Term,
-              //TODO: to complete
-          };
+            if (_dbContext.CurvePoints == null)
+            {
+                return Problem("Entity set 'ApiDbContext.CurvePoints'  is null.");
+            }
+
+            var newCurvePoint = new CurvePoint()
+            {
+                Term = curvePointDto.Term,
+                //TODO: to complete
+            };
             _dbContext.CurvePoints.Add(newCurvePoint);
             await _dbContext.SaveChangesAsync();
 
@@ -107,6 +109,7 @@ namespace PoseidonApi.Controllers
             {
                 return NotFound();
             }
+
             var curvePoint = await _dbContext.CurvePoints.FindAsync(id);
             if (curvePoint == null)
             {
@@ -123,7 +126,7 @@ namespace PoseidonApi.Controllers
         {
             return (_dbContext.CurvePoints?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-        
+
         private static CurvePointDTO CurvePointToDTO(CurvePoint curvePoint) =>
             new CurvePointDTO()
             {
