@@ -3,7 +3,7 @@ namespace PoseidonApi.Models;
 public class TradeDTO
 {
     /// <example>1</example>
-    public long Id { get; internal set; }
+    public long Id { get; set; }
     
     public string Account { get; set; }
     

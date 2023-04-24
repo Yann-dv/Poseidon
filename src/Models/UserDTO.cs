@@ -3,7 +3,7 @@ namespace PoseidonApi.Models;
 public class UserDTO
 {
     /// <example>1</example>
-    public long Id  { get; internal set; }
+    public long Id  { get; set; }
     
     /// <example>JohnDoe83</example>
     public string Username  { get; set; }
