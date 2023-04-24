@@ -3,7 +3,7 @@ namespace PoseidonApi.Models;
 public class RuleDTO
 {
     /// <example>1</example>
-    public long id { get; internal set; }
+    public long Id { get; internal set; }
     
     /// <example>RuleNameSample</example>
     public string Name { get; set; }

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PoseidonApi.Models;
 
 namespace PoseidonApi.Models
 {
@@ -10,5 +11,6 @@ namespace PoseidonApi.Models
         {
         }
         public DbSet<User> Users { get; set; }
+        public DbSet<Rule> Rules { get; set; }
     }
 }

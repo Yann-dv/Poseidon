@@ -66,6 +66,7 @@ namespace PoseidonApi.Controllers
             }
 
             userItem.Fullname = userDto.Fullname;
+            //TODO: to complete
 
             try
             {
@@ -126,14 +127,14 @@ namespace PoseidonApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(long id)
         {
-            var userItem = await _dbContext.Users.FindAsync(id);
+            var user = await _dbContext.Users.FindAsync(id);
 
-            if (userItem == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            _dbContext.Users.Remove(userItem);
+            _dbContext.Users.Remove(user);
             await _dbContext.SaveChangesAsync();
 
             return NoContent();
