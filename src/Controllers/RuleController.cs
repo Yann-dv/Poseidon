@@ -58,13 +58,13 @@ namespace PoseidonApi.Controllers
                 return BadRequest();
             }
             
-            var ruleItem = await _dbContext.Rules.FindAsync(id);
-            if (ruleItem == null)
+            var rule = await _dbContext.Rules.FindAsync(id);
+            if (rule == null)
             {
                 return NotFound();
             }
 
-            ruleItem.Description = ruleDto.Description;
+            rule.Description = ruleDto.Description;
             //TODO: to complete
 
             try
