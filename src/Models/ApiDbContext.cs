@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Dot.Net.WebApi.Models
+namespace PoseidonApi.Models
 {
     public class ApiDbContext : DbContext
     {
@@ -9,7 +9,6 @@ namespace Dot.Net.WebApi.Models
             : base(options)
         {
         }
-
-        public DbSet<User> Users { get; set; } = null!;
+        public DbSet<User> Users { get; set; }
     }
 }
