@@ -2,7 +2,7 @@ namespace PoseidonApi.Models;
 
 public class UserDTO
 {
-    /// <example>1</example>
+    /// <example>0</example>
     public long Id  { get; set; }
     
     /// <example>JohnDoe83</example>
@@ -15,5 +15,5 @@ public class UserDTO
     public string Password  { get; set; }
     
     /// <example>Employee</example>
-    public string? Role  { get; set; } = "Employee";
+    public string? Role  { get; set; }
 }

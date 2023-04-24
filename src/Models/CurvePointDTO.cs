@@ -2,7 +2,7 @@ namespace PoseidonApi.Models;
 
 public class CurvePointDTO
 {
-    /// <example>1</example>
+    /// <example>0</example>
     public long Id { get; set; }
     
     /// <example>233</example>
