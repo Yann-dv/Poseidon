@@ -2,7 +2,7 @@ namespace PoseidonApi.Models;
 
 public class Bid
 {
-    public long BidListId { get; set; }
+    public long Id { get; set; }
     public string Account { get; set; }
     public string Type { get; set; }
     public double BidQuantity { get; set; }

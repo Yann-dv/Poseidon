@@ -1,13 +1,12 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using PoseidonApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 
 namespace PoseidonApi.Controllers
 {
+    /// <inheritdoc />
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
@@ -15,6 +14,7 @@ namespace PoseidonApi.Controllers
     {
         private readonly ApiDbContext _dbContext;
 
+        /// <inheritdoc />
         public UserController(ApiDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -51,6 +51,7 @@ namespace PoseidonApi.Controllers
         /// <summary>
         /// Update a specific User.
         /// </summary>
+        /// <param name="id"></param>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(long id, UserDTO userDto)
         {
@@ -59,14 +60,16 @@ namespace PoseidonApi.Controllers
                 return BadRequest();
             }
 
-            var userItem = await _dbContext.Users.FindAsync(id);
-            if (userItem == null)
+            var user = await _dbContext.Users.FindAsync(id);
+            if (user == null)
             {
                 return NotFound();
             }
 
-            userItem.Fullname = userDto.Fullname;
-            //TODO: to complete
+            user.Fullname = user.Fullname != userDto.Fullname ? userDto.Fullname : user.Fullname;
+            user.Password = user.Password != userDto.Password ? userDto.Password : user.Password;
+            user.Username = user.Username != userDto.Username ? userDto.Username : user.Username;
+            user.Role = user.Role != userDto.Role ? userDto.Role : user.Role;
 
             try
             {
@@ -83,11 +86,10 @@ namespace PoseidonApi.Controllers
         /// <summary>
         /// Creates a new User.
         /// </summary>
-        /// <param name="User"></param>
         /// <returns>A newly created User</returns>
         /// <remarks>
-        /// Sample request:
-        ///
+        /// POST request:
+        /// 
         ///     POST
         ///     {
         ///        "Id": (auto generated)
@@ -96,7 +98,7 @@ namespace PoseidonApi.Controllers
         ///        "Password": "MyPassword123"?
         ///        "Role": "Employee"
         ///     }
-        ///
+        /// 
         /// </remarks>
         [HttpPost]
         //[ProducesResponseType(StatusCodes.Status201Created)]
@@ -105,9 +107,10 @@ namespace PoseidonApi.Controllers
         {
             var newUser = new User
             {
-                Username = userDto.Username,
-                Fullname = userDto.Fullname,
-                Password = userDto.Password
+                Username = userDto.Username.IsNullOrEmpty() ?  "EmptyUsername" : userDto.Username,
+                Fullname = userDto.Fullname.IsNullOrEmpty() ? "EmptyFullname" : userDto.Fullname,
+                Password = userDto.Password.IsNullOrEmpty() ? "EmptyPassword" : userDto.Password,
+                Role = userDto.Role.IsNullOrEmpty() ? "Employee" : userDto.Role
             };
 
             _dbContext.Users.Add(newUser);
@@ -122,7 +125,7 @@ namespace PoseidonApi.Controllers
         /// <summary>
         /// Deletes a specific User.
         /// </summary>
-        /// <param name="Id"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(long id)
@@ -149,7 +152,8 @@ namespace PoseidonApi.Controllers
                 Id = user.Id,
                 Username = user.Username,
                 Fullname = user.Fullname,
-                Password = user.Password
+                Password = user.Password,
+                Role = user.Role
             };
     }
 }

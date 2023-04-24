@@ -2,8 +2,8 @@ namespace PoseidonApi.Models;
 
 public class RatingDTO
 {
-    /// <example>1</example>
-    public long Id { get; internal set; }
+    /// <example>0</example>
+    public long Id { get; set; }
     
     /// <example>MoodyRatingSample</example>
     public string MoodysRating { get; set; }
