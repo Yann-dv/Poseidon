@@ -9,7 +9,9 @@ public class LoginModel
     [Required(ErrorMessage = "Email Required")]
     public string UserName { get; set; }
 
-    /// <example>johndoe790</example>
+    /// <example>John_doe99$</example>
     [Required(ErrorMessage = "Password Required")]
+    [RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", 
+        ErrorMessage = "Password must meet requirements")]
     public string Password { get; set; }
 }

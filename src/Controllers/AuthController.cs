@@ -22,7 +22,7 @@ public class AuthController : ControllerBase
             return BadRequest("Invalid client request");
         }
 
-        if (model.UserName == "johndoe" && model.Password == "johndoe790")
+        if (model.UserName == "johndoe" && model.Password == "John_doe99$")
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@2410"));
             var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
