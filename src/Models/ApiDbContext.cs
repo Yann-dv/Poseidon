@@ -12,5 +12,6 @@ namespace PoseidonApi.Models
         }
         public DbSet<User> Users { get; set; }
         public DbSet<Rule> Rules { get; set; }
+        public DbSet<Rating> Ratings { get; set; } = default!;
     }
 }

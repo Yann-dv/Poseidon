@@ -10,6 +10,7 @@ using PoseidonApi.Models;
 namespace PoseidonApi.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class RuleController : ControllerBase
     {
