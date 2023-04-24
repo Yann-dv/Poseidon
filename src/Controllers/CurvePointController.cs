@@ -9,6 +9,7 @@ using PoseidonApi.Models;
 
 namespace PoseidonApi.Controllers
 {
+    /// <inheritdoc />
     [Route("api/[controller]")]
     [Produces("application/json")]
     [ApiController]
@@ -16,12 +17,17 @@ namespace PoseidonApi.Controllers
     {
         private readonly ApiDbContext _dbContext;
 
+        /// <inheritdoc />
         public CurvePointController(ApiDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         // GET: api/CurvePoint
+        /// <summary>
+        /// Get all CurvePoints.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CurvePointDTO>>> GetCurvePoints()
         {
@@ -36,6 +42,11 @@ namespace PoseidonApi.Controllers
         }
 
         // GET: api/CurvePoint/5
+        /// <summary>
+        /// Get a specific CurvePoint.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<CurvePointDTO>> GetCurvePoint(long id)
         {
@@ -51,6 +62,12 @@ namespace PoseidonApi.Controllers
 
         // PUT: api/CurvePoint/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Update a specific CurvePoint.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="curvePointDto"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCurvePoint(long id, CurvePointDTO curvePointDto)
         {
@@ -65,8 +82,12 @@ namespace PoseidonApi.Controllers
                 return NotFound();
             }
 
-            curvePoint.Term = curvePointDto.Term;
-            //TODO: to complete
+            curvePoint.Term = curvePoint.Term != curvePointDto.Term ? curvePointDto.Term : curvePoint.Term;
+            curvePoint.Value = curvePoint.Value != curvePointDto.Value ? curvePointDto.Value : curvePoint.Value;
+            curvePoint.CurveId = curvePoint.CurveId != curvePointDto.CurveId ? curvePointDto.CurveId : curvePoint.CurveId;
+            curvePoint.AsOfDate = curvePoint.AsOfDate != curvePointDto.AsOfDate ? curvePointDto.AsOfDate : curvePoint.AsOfDate;
+            curvePoint.CreationDate = curvePoint.CreationDate != curvePointDto.CreationDate ? curvePointDto.CreationDate : curvePoint.CreationDate;
+            
 
             try
             {
@@ -81,7 +102,25 @@ namespace PoseidonApi.Controllers
         }
 
         // POST: api/CurvePoint
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Create a new CurvePoint.
+        /// </summary>
+        /// <param name="curvePointDto"></param>
+        /// <returns></returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///     "Id": (auto generated),
+        ///     "Term": 1,
+        ///     "Value": 2,
+        ///     "CurveId": 1
+        ///     "AsOfDate": "2021-01-01T00:00:00"
+        ///     "CreatedDate": "2021-01-01T00:00:00"
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
         public async Task<ActionResult<CurvePointDTO>> PostCurvePoint(CurvePointDTO curvePointDto)
         {
@@ -92,9 +131,13 @@ namespace PoseidonApi.Controllers
 
             var newCurvePoint = new CurvePoint()
             {
-                Term = curvePointDto.Term,
-                //TODO: to complete
+                Term = curvePointDto.Term == 0 ? 0 : curvePointDto.Term,
+                Value = curvePointDto.Value == 0 ? 0 : curvePointDto.Value,
+                CurveId = curvePointDto.CurveId == 0 ? 0 : curvePointDto.CurveId,
+                AsOfDate = curvePointDto.AsOfDate == DateTime.MinValue ? DateTime.MinValue : curvePointDto.AsOfDate,
+                CreationDate = curvePointDto.CreationDate == DateTime.MinValue ? DateTime.MinValue : curvePointDto.CreationDate
             };
+            
             _dbContext.CurvePoints.Add(newCurvePoint);
             await _dbContext.SaveChangesAsync();
 
@@ -102,6 +145,11 @@ namespace PoseidonApi.Controllers
         }
 
         // DELETE: api/CurvePoint/5
+        /// <summary>
+        /// Delete a specific CurvePoint.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCurvePoint(long id)
         {

@@ -8,7 +8,7 @@ public class CurvePointDTO
     /// <example>233</example>
     public int CurveId { get; set; }
     
-    /// <example>2023-03-01</example>
+    /// <example>0001-01-01</example>
     public DateTime AsOfDate { get; set; }
     
     /// <example>10.0</example>
@@ -17,6 +17,6 @@ public class CurvePointDTO
     /// <example>100.0</example>
     public double Value { get; set; }
     
-    /// <example>2023-02-20</example>
+    /// <example>0001-01-01</example>
     public DateTime CreationDate { get; set; }
 }
