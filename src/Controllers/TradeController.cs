@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -8,6 +9,7 @@ namespace PoseidonApi.Controllers
     /// <inheritdoc />
     [Route("api/[controller]")]
     [Produces("application/json")]
+    [Authorize]
     [ApiController]
     public class TradeController : ControllerBase
     {
