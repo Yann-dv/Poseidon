@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dot.Net.WebApi.Models;
+using PoseidonApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace PoseidonApi.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class UserController : ControllerBase
     {
@@ -20,29 +21,38 @@ namespace PoseidonApi.Controllers
         }
 
         // GET: api/Users
+        /// <summary>
+        /// Get all Users.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             return await _dbContext.Users
-                .Select(x => UserItemToDTO(x))
+                .Select(x => UserToDTO(x))
                 .ToListAsync();
         }
 
+        /// <summary>
+        /// Get a specific User.
+        /// </summary>
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUserItem(long id)
+        public async Task<ActionResult<UserDTO>> GetUser(long id)
         {
-            var userItem = await _dbContext.Users.FindAsync(id);
+            var user = await _dbContext.Users.FindAsync(id);
 
-            if (userItem == null)
+            if (user == null)
             {
                 return NotFound();
             }
 
-            return UserItemToDTO(userItem);
+            return UserToDTO(user);
         }
 
+        /// <summary>
+        /// Update a specific User.
+        /// </summary>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUserItem(long id, UserDTO userDto)
+        public async Task<IActionResult> UpdateUser(long id, UserDTO userDto)
         {
             if (id != userDto.Id)
             {
@@ -61,7 +71,7 @@ namespace PoseidonApi.Controllers
             {
                 await _dbContext.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException) when (!UserItemExists(id))
+            catch (DbUpdateConcurrencyException) when (!UserExists(id))
             {
                 return NotFound();
             }
@@ -69,25 +79,52 @@ namespace PoseidonApi.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Creates a new User.
+        /// </summary>
+        /// <param name="User"></param>
+        /// <returns>A newly created User</returns>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST
+        ///     {
+        ///        "Id": (auto generated)
+        ///        "Username": "SampleUsername",
+        ///        "Fullname": "Sample Fullname",
+        ///        "Password": "MyPassword123"?
+        ///        "Role": "Employee"
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
-        public async Task<ActionResult<UserDTO>> CreateUserItem(UserDTO userDto)
+        //[ProducesResponseType(StatusCodes.Status201Created)]
+        //[ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<UserDTO>> CreateUser(UserDTO userDto)
         {
-            var userItem = new User
+            var newUser = new User
             {
-                Fullname = userDto.Fullname
+                Username = userDto.Username,
+                Fullname = userDto.Fullname,
+                Password = userDto.Password
             };
 
-            _dbContext.Users.Add(userItem);
+            _dbContext.Users.Add(newUser);
             await _dbContext.SaveChangesAsync();
 
             return CreatedAtAction(
-                nameof(GetUserItem),
-                new { id = userItem.Id },
-                UserItemToDTO(userItem));
+                nameof(GetUser),
+                new { id = newUser.Id },
+                UserToDTO(newUser));
         }
 
+        /// <summary>
+        /// Deletes a specific User.
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserItem(long id)
+        public async Task<IActionResult> DeleteUser(long id)
         {
             var userItem = await _dbContext.Users.FindAsync(id);
 
@@ -102,14 +139,16 @@ namespace PoseidonApi.Controllers
             return NoContent();
         }
 
-        private bool UserItemExists(long id) =>
+        private bool UserExists(long id) =>
             _dbContext.Users.Any(e => e.Id == id);
 
-        private static UserDTO UserItemToDTO(User user) =>
+        private static UserDTO UserToDTO(User user) =>
             new UserDTO
             {
                 Id = user.Id,
+                Username = user.Username,
                 Fullname = user.Fullname,
+                Password = user.Password
             };
     }
 }

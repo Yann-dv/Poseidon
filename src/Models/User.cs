@@ -1,11 +1,11 @@
-namespace Dot.Net.WebApi.Models
+namespace PoseidonApi.Models
 {
     public class User
     {
-        public long Id;
-        public string Username;
-        public string Password;
-        public string Fullname;
-        public string? Role;
+        public long Id { get; set; }
+        public string Username  { get; set; }
+        public string Password  { get; set; }
+        public string Fullname  { get; set; }
+        public string? Role  { get; set; }
     }
 }
