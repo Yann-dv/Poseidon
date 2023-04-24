@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using PoseidonApi.Models;
 
 namespace PoseidonApi.Controllers
@@ -22,19 +18,26 @@ namespace PoseidonApi.Controllers
         }
 
         // GET: api/Rule
+        /// <summary>
+        /// Get all Rules.
+        /// </summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RuleDTO>>> GetRule()
         {
-          if (_dbContext.Rules == null)
-          {
-              return NotFound();
-          }
-          return await _dbContext.Rules
-              .Select(x => RuleToDTO(x))
-              .ToListAsync();
+            if (_dbContext.Rules == null)
+            {
+                return NotFound();
+            }
+
+            return await _dbContext.Rules
+                .Select(x => RuleToDTO(x))
+                .ToListAsync();
         }
 
         // GET: api/Rule/5
+        /// <summary>
+        /// Get a specific Rules.
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<ActionResult<RuleDTO>> GetRule(long id)
         {
@@ -49,7 +52,10 @@ namespace PoseidonApi.Controllers
         }
 
         // PUT: api/Rule/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Update a specific Rule.
+        /// </summary>
+        /// <param name="id"></param>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRule(long id, RuleDTO ruleDto)
         {
@@ -57,15 +63,19 @@ namespace PoseidonApi.Controllers
             {
                 return BadRequest();
             }
-            
+
             var rule = await _dbContext.Rules.FindAsync(id);
             if (rule == null)
             {
                 return NotFound();
             }
 
-            rule.Description = ruleDto.Description;
-            //TODO: to complete
+            rule.Description = rule.Description != ruleDto.Description ? ruleDto.Description : rule.Description;
+            rule.Name = rule.Name != ruleDto.Name ? ruleDto.Name : rule.Name;
+            rule.Json = rule.Json != ruleDto.Json ? ruleDto.Json : rule.Json;
+            rule.Template = rule.Template != ruleDto.Template ? ruleDto.Template : rule.Template;
+            rule.SqlStr = rule.SqlStr != ruleDto.SqlStr ? ruleDto.SqlStr : rule.SqlStr;
+            rule.SqlPart = rule.SqlPart != ruleDto.SqlPart ? ruleDto.SqlPart : rule.SqlPart;
 
             try
             {
@@ -89,25 +99,35 @@ namespace PoseidonApi.Controllers
         ///
         ///     POST
         ///     {
-        ///        "Id": (auto generated)
+        ///        "Id": (auto generated),
+        ///        "Name": "Rule1",
+        ///        "Description": "Rule1 Description",
+        ///        "Json": "Json1",
+        ///        "Template": "Template1",
+        ///        "SqlStr": "SqlStr1",
+        ///        "SqlPart": "SqlPart1"
         ///     }
         ///
         /// </remarks>
         // POST: api/Rule
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<RuleDTO>> PostRule(RuleDTO ruleDto)
         {
-          if (_dbContext.Rules == null)
-          {
-              return Problem("Entity set 'ApiDbContext.Rules'  is null.");
-          }
-          var newRule = new Rule
-          {
-              Description = ruleDto.Description,
-              //TODO: to complete
-          };
-          
+            if (_dbContext.Rules == null)
+            {
+                return Problem("Entity set 'ApiDbContext.Rules'  is null.");
+            }
+
+            var newRule = new Rule
+            {
+                Description = ruleDto.Description.IsNullOrEmpty() ? "Default Description" : ruleDto.Description,
+                Name = ruleDto.Name.IsNullOrEmpty() ? "Default Name" : ruleDto.Name,
+                Json = ruleDto.Json.IsNullOrEmpty() ? "Default Json" : ruleDto.Json,
+                Template = ruleDto.Template.IsNullOrEmpty() ? "Default Template" : ruleDto.Template,
+                SqlStr = ruleDto.SqlStr.IsNullOrEmpty() ? "Default SqlStr" : ruleDto.SqlStr,
+                SqlPart = ruleDto.SqlPart.IsNullOrEmpty() ? "Default SqlPart" : ruleDto.SqlPart
+            };
+
             _dbContext.Rules.Add(newRule);
             await _dbContext.SaveChangesAsync();
 
@@ -139,7 +159,7 @@ namespace PoseidonApi.Controllers
         {
             return (_dbContext.Rules?.Any(e => e.Id == id)).GetValueOrDefault();
         }
-        
+
         private static RuleDTO RuleToDTO(Rule rule) =>
             new RuleDTO()
             {

@@ -114,7 +114,7 @@ namespace PoseidonApi.Controllers
         ///
         ///     POST
         ///     {
-        ///     "Id": (auto generated)
+        ///     "Id": (auto generated),
         ///     "Account": "SampleAccount",
         ///     "Type": "SampleType",
         ///     "BuyQuantity": 0,
@@ -139,7 +139,6 @@ namespace PoseidonApi.Controllers
         ///
         /// </remarks>
         // POST: api/Trade
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<TradeDTO>> PostTrade(TradeDTO tradeDto)
         {
