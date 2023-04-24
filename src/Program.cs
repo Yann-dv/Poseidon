@@ -1,10 +1,18 @@
 using System.Reflection;
 using PoseidonApi.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging.Configuration;
+using PoseidonApi.Logger;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.TryAddEnumerable(
+    ServiceDescriptor.Singleton<ILoggerProvider, ColorConsoleLoggerProvider>());
+LoggerProviderOptions.RegisterProviderOptions
+    <ColorConsoleLoggerConfiguration, ColorConsoleLoggerProvider>(builder.Services);
 
 builder.Services.AddDbContext<ApiDbContext>(opt =>
     opt.UseInMemoryDatabase("ApiList"));

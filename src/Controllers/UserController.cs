@@ -2,6 +2,7 @@ using PoseidonApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using PoseidonApi.Logger;
 
 
 namespace PoseidonApi.Controllers
@@ -13,11 +14,13 @@ namespace PoseidonApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly ApiDbContext _dbContext;
+        private readonly ColorConsoleLogger _logger;
 
         /// <inheritdoc />
-        public UserController(ApiDbContext dbContext)
+        public UserController(ApiDbContext dbContext, ColorConsoleLogger logger)
         {
             _dbContext = dbContext;
+            _logger = logger;
         }
 
         // GET: api/Users
@@ -27,6 +30,10 @@ namespace PoseidonApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
+            _logger.LogError("error");
+            _logger.LogWarning("warning");
+            _logger.LogInformation("info");
+            
             return await _dbContext.Users
                 .Select(x => UserToDTO(x))
                 .ToListAsync();
