@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebApi": {
+    "PoseidonApi": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
