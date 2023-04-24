@@ -57,7 +57,6 @@ namespace PoseidonApi.Controllers
         /// Update a specific Trade.
         /// </summary>
         /// <param name="id"></param>
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTrade(long id, TradeDTO tradeDto)
         {
@@ -72,8 +71,26 @@ namespace PoseidonApi.Controllers
                 return NotFound();
             }
 
-            trade.Account = tradeDto.Account;
-            //TODO: to complete
+            trade.Account = trade.Account != tradeDto.Account ? tradeDto.Account : trade.Account;
+            trade.Type = trade.Type != tradeDto.Type ? tradeDto.Type : trade.Type;
+            trade.BuyQuantity = trade.BuyQuantity != tradeDto.BuyQuantity ? tradeDto.BuyQuantity : trade.BuyQuantity;
+            trade.SellQuantity = trade.SellQuantity != tradeDto.SellQuantity ? tradeDto.SellQuantity : trade.SellQuantity;
+            trade.BuyPrice = trade.BuyPrice != tradeDto.BuyPrice ? tradeDto.BuyPrice : trade.BuyPrice;
+            trade.SellPrice = trade.SellPrice != tradeDto.SellPrice ? tradeDto.SellPrice : trade.SellPrice;
+            trade.Benchmark = trade.Benchmark != tradeDto.Benchmark ? tradeDto.Benchmark : trade.Benchmark;
+            trade.TradeDate = trade.TradeDate != tradeDto.TradeDate ? tradeDto.TradeDate : trade.TradeDate;
+            trade.Security = trade.Security != tradeDto.Security ? tradeDto.Security : trade.Security;
+            trade.Status = trade.Status != tradeDto.Status ? tradeDto.Status : trade.Status;
+            trade.Trader = trade.Trader != tradeDto.Trader ? tradeDto.Trader : trade.Trader;
+            trade.Book = trade.Book != tradeDto.Book ? tradeDto.Book : trade.Book;
+            trade.CreationName = trade.CreationName != tradeDto.CreationName ? tradeDto.CreationName : trade.CreationName;
+            trade.CreationDate = trade.CreationDate != tradeDto.CreationDate ? tradeDto.CreationDate : trade.CreationDate;
+            trade.RevisionName = trade.RevisionName != tradeDto.RevisionName ? tradeDto.RevisionName : trade.RevisionName;
+            trade.RevisionDate = trade.RevisionDate != tradeDto.RevisionDate ? tradeDto.RevisionDate : trade.RevisionDate;
+            trade.DealName = trade.DealName != tradeDto.DealName ? tradeDto.DealName : trade.DealName;
+            trade.DealType = trade.DealType != tradeDto.DealType ? tradeDto.DealType : trade.DealType;
+            trade.SourceListId = trade.SourceListId != tradeDto.SourceListId ? tradeDto.SourceListId : trade.SourceListId;
+            trade.Side = trade.Side != tradeDto.Side ? tradeDto.Side : trade.Side;
 
             try
             {
