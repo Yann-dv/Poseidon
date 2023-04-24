@@ -3,7 +3,7 @@ namespace PoseidonApi.Models;
 public class BidDTO
 {
     /// <example>1</example>
-    public long BidListId { get; set; }
+    public long Id { get; set; }
     
     /// <example>AccountSample</example>
     public string Account { get; set; }
