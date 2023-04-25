@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PoseidonApi.Models;
 
 public class UserDTO
@@ -11,7 +13,10 @@ public class UserDTO
     /// <example>John Doe</example>
     public string? Fullname  { get; set; }
     
-    /// <example>p@sswrd123</example>
+    /// <example>sample_pwd01*</example>
+    [Required(ErrorMessage = "Password Required")]
+    [RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", 
+        ErrorMessage = "Password must meet requirements")]
     public string Password  { get; set; }
     
     /// <example>Employee</example>
