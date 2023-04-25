@@ -17,7 +17,7 @@ namespace PoseidonApi.Controllers
         private readonly ApiDbContext _dbContext;
 
         /// <inheritdoc />
-        public UserController(ApiDbContext dbContext)
+        public UserController(ApiDbContext dbContext) 
         {
             _dbContext = dbContext;
         }
