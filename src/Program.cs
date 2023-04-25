@@ -3,6 +3,7 @@ using PoseidonApi.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging.Configuration;
+using PoseidonApi.Controllers;
 using PoseidonApi.Logger;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,7 +18,13 @@ LoggerProviderOptions.RegisterProviderOptions
 builder.Services.AddDbContext<ApiDbContext>(opt =>
     opt.UseInMemoryDatabase("ApiList"));
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(
+    config =>  
+    {  
+        config.Filters.Add<CustomActionFilter>();  
+    });
+
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options => {

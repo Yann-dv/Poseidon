@@ -2,7 +2,6 @@ using PoseidonApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using PoseidonApi.Logger;
 
 
 namespace PoseidonApi.Controllers
@@ -14,13 +13,11 @@ namespace PoseidonApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly ApiDbContext _dbContext;
-        private readonly IServiceScopeFactory _serviceScopeFactory;
 
         /// <inheritdoc />
-        public UserController(ApiDbContext dbContext) //, IServiceScopeFactory serviceScopeFactory)
+        public UserController(ApiDbContext dbContext) 
         {
             _dbContext = dbContext;
-           // _serviceScopeFactory = serviceScopeFactory;
         }
 
         // GET: api/Users
@@ -30,18 +27,6 @@ namespace PoseidonApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
-            /*var loggerFactory = _serviceScopeFactory.CreateScope()
-                    .ServiceProvider.GetRequiredService<ILogger<LoggerFactory>>();
-           using var loggerConsole = LoggerFactory.Create(loggingBuilder => loggingBuilder
-                .SetMinimumLevel(LogLevel.Trace)
-                .AddConsole());*/
-            /*using var loggerFactoryx = LoggerFactory.Create(loggingBuilder => loggingBuilder
-                .SetMinimumLevel(LogLevel.Trace)
-                .AddConsole());*/
-            
-            //ILogger logger = loggerConsole.CreateLogger<Program>();
-            //logger.LogInformation(1, "GetUsers() called");
-            
             return await _dbContext.Users
                 .Select(x => UserToDTO(x))
                 .ToListAsync();
