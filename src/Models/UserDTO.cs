@@ -13,7 +13,7 @@ public class UserDTO
     /// <example>John Doe</example>
     public string? Fullname  { get; set; }
     
-    /// <example>sample_pwd01*</example>
+    /// <example>sample_Pwd01*</example>
     [Required(ErrorMessage = "Password Required")]
     [RegularExpression(@"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", 
         ErrorMessage = "Password must meet requirements")]
