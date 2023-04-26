@@ -107,5 +107,11 @@ app.MapControllers();
 
 //Seed in-memory database
 await UserSeed.Seed(app);
+await TradeSeed.Seed(app);
+await CurvePointSeed.Seed(app);
+await BidSeed.Seed(app);
+await RatingSeed.Seed(app);
+await RuleSeed.Seed(app);
+
 
 app.Run();
