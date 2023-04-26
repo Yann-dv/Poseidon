@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using PoseidonApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -67,7 +68,7 @@ namespace PoseidonApi.Controllers
             {
                 return NotFound();
             }
-
+            
             user.Fullname = user.Fullname != userDto.Fullname ? userDto.Fullname : user.Fullname;
             user.Password = user.Password != userDto.Password ? userDto.Password : user.Password;
             user.Username = user.Username != userDto.Username ? userDto.Username : user.Username;
@@ -148,14 +149,18 @@ namespace PoseidonApi.Controllers
         private bool UserExists(long id) =>
             _dbContext.Users.Any(e => e.Id == id);
 
-        private static UserDTO UserToDTO(User user) =>
-            new UserDTO
+        private static UserDTO UserToDTO(User user)
+        {
+            var hasher = new PasswordHasher<IdentityUser>();
+
+            return new UserDTO
             {
                 Id = user.Id,
                 Username = user.Username,
                 Fullname = user.Fullname,
-                Password = user.Password,
+                Password = hasher.HashPassword(null, user.Password),
                 Role = user.Role
             };
+        }
     }
 }
