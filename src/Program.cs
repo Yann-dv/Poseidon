@@ -9,6 +9,7 @@ using PoseidonApi.Logger;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using PoseidonApi.Data;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -102,8 +103,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-
-
 app.MapControllers();
+
+//Seed in-memory database
+await UserSeed.Seed(app);
 
 app.Run();
