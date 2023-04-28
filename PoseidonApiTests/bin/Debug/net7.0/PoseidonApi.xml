@@ -1,0 +1,555 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PoseidonApi</name>
+    </assembly>
+    <members>
+        <member name="T:PoseidonApi.Controllers.AuthController">
+            <summary>
+            Login controller.
+            </summary>
+        </member>
+        <member name="T:PoseidonApi.Controllers.BidController">
+            <inheritdoc />
+        </member>
+        <member name="M:PoseidonApi.Controllers.BidController.#ctor(PoseidonApi.Models.ApiDbContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:PoseidonApi.Controllers.BidController.GetBids">
+            <summary>
+            Get all Bids.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PoseidonApi.Controllers.BidController.GetBid(System.Int64)">
+            <summary>
+            Get a specific Bid.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PoseidonApi.Controllers.BidController.PutBid(System.Int64,PoseidonApi.Models.BidDTO)">
+            <summary>
+            Update a specific Bid.
+            </summary>
+            <param name="id"></param>
+            <param name="bidDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PoseidonApi.Controllers.BidController.PostBid(PoseidonApi.Models.BidDTO)">
+             <summary>
+             Create a new Bid.
+             </summary>
+             <param name="bidDto"></param>
+             <returns></returns>
+             <remarks>
+             Sample request:
+            
+                 POST
+                 {
+                 "Id": (auto generated),
+                 "Account": "Account",
+                 "Type": "Type",
+                 "BidQuantity": 0,
+                 "AskQuantity": 0,
+                 "BidValue": 0,
+                 "Ask": 0,
+                 "Benchmark": "Benchmark",
+                 "BidListDate": "2021-03-01T00:00:00",
+                 "Commentary": "Commentary",
+                 "Security": "Security",
+                 "Status": "Status",
+                 "Trader": "Trader",
+                 "Book": "Book",
+                 "CreationName": "CreationName",
+                 "CreationDate": "2021-03-01T00:00:00",
+                 "RevisionName": "RevisionName",
+                 "RevisionDate": "2021-03-01T00:00:00",
+                 "DealName": "DealName",
+                 "DealType": "DealType",
+                 "SourceListId": "SourceListId",
+                 "Side": "Side"
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:PoseidonApi.Controllers.BidController.DeleteBid(System.Int64)">
+            <summary>
+            Delete a specific Bid.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PoseidonApi.Controllers.CurvePointController">
+            <inheritdoc />
+        </member>
+        <member name="M:PoseidonApi.Controllers.CurvePointController.#ctor(PoseidonApi.Models.ApiDbContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:PoseidonApi.Controllers.CurvePointController.GetCurvePoints">
+            <summary>
+            Get all CurvePoints.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PoseidonApi.Controllers.CurvePointController.GetCurvePoint(System.Int64)">
+            <summary>
+            Get a specific CurvePoint.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PoseidonApi.Controllers.CurvePointController.PutCurvePoint(System.Int64,PoseidonApi.Models.CurvePointDTO)">
+            <summary>
+            Update a specific CurvePoint.
+            </summary>
+            <param name="id"></param>
+            <param name="curvePointDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PoseidonApi.Controllers.CurvePointController.PostCurvePoint(PoseidonApi.Models.CurvePointDTO)">
+             <summary>
+             Create a new CurvePoint.
+             </summary>
+             <param name="curvePointDto"></param>
+             <returns></returns>
+             <remarks>
+             Sample request:
+            
+                 POST
+                 {
+                 "Id": (auto generated),
+                 "Term": 1,
+                 "Value": 2,
+                 "CurveId": 1
+                 "AsOfDate": "2021-01-01T00:00:00"
+                 "CreatedDate": "2021-01-01T00:00:00"
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:PoseidonApi.Controllers.CurvePointController.DeleteCurvePoint(System.Int64)">
+            <summary>
+            Delete a specific CurvePoint.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PoseidonApi.Controllers.RatingController">
+            <inheritdoc />
+        </member>
+        <member name="M:PoseidonApi.Controllers.RatingController.#ctor(PoseidonApi.Models.ApiDbContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:PoseidonApi.Controllers.RatingController.GetRating">
+            <summary>
+            Get all Ratings.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PoseidonApi.Controllers.RatingController.GetRating(System.Int64)">
+            <summary>
+            Get a specific Rating.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PoseidonApi.Controllers.RatingController.PutRating(System.Int64,PoseidonApi.Models.RatingDTO)">
+            <summary>
+            Update a specific Rating.
+            </summary>
+            <param name="id"></param>
+            <param name="ratingDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PoseidonApi.Controllers.RatingController.PostRating(PoseidonApi.Models.RatingDTO)">
+             <summary>
+             Create a new Rating.
+             </summary>
+             <param name="ratingDto"></param>
+             <remarks>
+             <returns></returns>
+             /// Request sample:
+            
+                 POST
+                 {
+                     "Id": (auto generated),
+                     "MoodysRating": "A1",
+                     "FitchRating": "A+",
+                     "SandPRating": "A+",
+                     "OrderNumber": 1
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:PoseidonApi.Controllers.RatingController.DeleteRating(System.Int64)">
+            <summary>
+            Delete a specific Rating.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PoseidonApi.Controllers.RuleController.GetRule">
+            <summary>
+            Get all Rules.
+            </summary>
+        </member>
+        <member name="M:PoseidonApi.Controllers.RuleController.GetRule(System.Int64)">
+            <summary>
+            Get a specific Rules.
+            </summary>
+        </member>
+        <member name="M:PoseidonApi.Controllers.RuleController.PutRule(System.Int64,PoseidonApi.Models.RuleDTO)">
+            <summary>
+            Update a specific Rule.
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:PoseidonApi.Controllers.RuleController.PostRule(PoseidonApi.Models.RuleDTO)">
+             <summary>
+             Creates a new Rule.
+             </summary>
+             <param name="Rule"></param>
+             <returns>A newly created Rule</returns>
+             <remarks>
+             Sample request:
+            
+                 POST
+                 {
+                    "Id": (auto generated),
+                    "Name": "Rule1",
+                    "Description": "Rule1 Description",
+                    "Json": "Json1",
+                    "Template": "Template1",
+                    "SqlStr": "SqlStr1",
+                    "SqlPart": "SqlPart1"
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:PoseidonApi.Controllers.RuleController.DeleteRule(System.Int64)">
+            <summary>
+            Deletes a specific Rule.
+            </summary>
+            <param name="Id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PoseidonApi.Controllers.TradeController">
+            <inheritdoc />
+        </member>
+        <member name="M:PoseidonApi.Controllers.TradeController.#ctor(PoseidonApi.Models.ApiDbContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:PoseidonApi.Controllers.TradeController.GetTrades">
+            <summary>
+            Get all Trades.
+            </summary>
+        </member>
+        <member name="M:PoseidonApi.Controllers.TradeController.GetTrade(System.Int64)">
+            <summary>
+            Get a specific Trade.
+            </summary>
+        </member>
+        <member name="M:PoseidonApi.Controllers.TradeController.PutTrade(System.Int64,PoseidonApi.Models.TradeDTO)">
+            <summary>
+            Update a specific Trade.
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:PoseidonApi.Controllers.TradeController.PostTrade(PoseidonApi.Models.TradeDTO)">
+             <summary>
+             Creates a new Trade.
+             </summary>
+             <param name="Trade"></param>
+             <returns>A newly created Trade</returns>
+             <remarks>
+             Sample request:
+            
+                 POST
+                 {
+                 "Id": (auto generated),
+                 "Account": "SampleAccount",
+                 "Type": "SampleType",
+                 "BuyQuantity": 0,
+                 "SellQuantity": 0,
+                 "BuyPrice": 0,
+                 "SellPrice": 0,
+                 "Benchmark": "SampleBenchmark",
+                 "TradeDate": "2021-03-01T00:00:00",
+                 "Security": "SampleSecurity",
+                 "Status": "SampleStatus",
+                 "Trader": "SampleTrader",
+                 "Book": "SampleBook",
+                 "CreationName": "SampleCreationName",
+                 "CreationDate": "2021-03-01T00:00:00",
+                 "RevisionName": "SampleRevisionName",
+                 "RevisionDate": "2021-03-01T00:00:00",
+                 "DealName": "SampleDealName",
+                 "DealType": "SampleDealType",
+                 "SourceListId": "SampleSourceListId",
+                 "Side": "SampleSide",
+                 }
+            
+             </remarks>
+        </member>
+        <member name="M:PoseidonApi.Controllers.TradeController.DeleteTrade(System.Int64)">
+            <summary>
+            Deletes a specific Trade.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PoseidonApi.Controllers.UserController">
+            <inheritdoc />
+        </member>
+        <member name="M:PoseidonApi.Controllers.UserController.#ctor(PoseidonApi.Models.ApiDbContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:PoseidonApi.Controllers.UserController.GetUsers">
+            <summary>
+            Get all Users.
+            </summary>
+        </member>
+        <member name="M:PoseidonApi.Controllers.UserController.GetUser(System.Int64)">
+            <summary>
+            Get a specific User.
+            </summary>
+        </member>
+        <member name="M:PoseidonApi.Controllers.UserController.UpdateUser(System.Int64,PoseidonApi.Models.UserDTO)">
+            <summary>
+            Update a specific User.
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:PoseidonApi.Controllers.UserController.CreateUser(PoseidonApi.Models.UserDTO)">
+            <summary>
+            Creates a new User.
+            </summary>
+            <returns>A newly created User</returns>
+            <remarks>
+            POST request:
+            
+                POST
+                {
+                   "Id": (auto generated)
+                   "Username": "SampleUsername",
+                   "Fullname": "Sample Fullname",
+                   "Password": "MyPassword123"?
+                   "Role": "Employee"
+                }
+            
+            </remarks>
+        </member>
+        <member name="M:PoseidonApi.Controllers.UserController.DeleteUser(System.Int64)">
+            <summary>
+            Deletes a specific User.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Id">
+            <example>0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Account">
+            <example>AccountSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Type">
+            <example>TypeSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.BidQuantity">
+            <example>23.0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.AskQuantity">
+            <example>10.0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.BidValue">
+            <example>15.0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Ask">
+            <example>2.0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Benchmark">
+            <example>BenchmarkSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.BidListDate">
+            <example>2023-03-31</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Commentary">
+            <example>CommentarySample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Security">
+            <example>SecuritySample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Status">
+            <example>StatusSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Trader">
+            <example>TraderSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Book">
+            <example>BookSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.CreationName">
+            <example>CreationNameSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.CreationDate">
+            <example>2023-03-01</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.RevisionName">
+            <example>RevisionNameSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.RevisionDate">
+            <example>2023-03-11</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.DealName">
+            <example>DealNameSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.DealType">
+            <example>DealTypeSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.SourceListId">
+            <example>SourceListIdSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.BidDTO.Side">
+            <example>SideSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.CurvePointDTO.Id">
+            <example>0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.CurvePointDTO.CurveId">
+            <example>233</example>
+        </member>
+        <member name="P:PoseidonApi.Models.CurvePointDTO.AsOfDate">
+            <example>0001-01-01</example>
+        </member>
+        <member name="P:PoseidonApi.Models.CurvePointDTO.Term">
+            <example>10.0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.CurvePointDTO.Value">
+            <example>100.0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.CurvePointDTO.CreationDate">
+            <example>0001-01-01</example>
+        </member>
+        <member name="P:PoseidonApi.Models.LoginModel.UserName">
+            <example>johndoe</example>
+        </member>
+        <member name="P:PoseidonApi.Models.LoginModel.Password">
+            <example>John_doe99$</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RatingDTO.Id">
+            <example>0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RatingDTO.MoodysRating">
+            <example>MoodyRatingSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RatingDTO.SandPRating">
+            <example>SandPRatingSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RatingDTO.FitchRating">
+            <example>FitchRatinSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RatingDTO.OrderNumber">
+            <example>92134</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RuleDTO.Id">
+            <example>0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RuleDTO.Name">
+            <example>RuleNameSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RuleDTO.Description">
+            <example>DescriptionSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RuleDTO.Json">
+            <example>JsonSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RuleDTO.Template">
+            <example>TemplateSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RuleDTO.SqlStr">
+            <example>SqlStrSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.RuleDTO.SqlPart">
+            <example>SqlPartSample</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.Id">
+            <example>0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.Account">
+            <example>Account</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.Type">
+            <example>Type</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.BuyQuantity">
+            <example>0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.SellQuantity">
+            <example>0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.BuyPrice">
+            <example>0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.SellPrice">
+            <example>0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.Benchmark">
+            <example>Benchmark</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.TradeDate">
+            <example>0001-01-01</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.Security">
+            <example>Security</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.Status">
+            <example>Status</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.Trader">
+            <example>Trader</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.Book">
+            <example>Book</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.CreationName">
+            <example>CreationName</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.CreationDate">
+            <example>0001-01-01</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.RevisionName">
+            <example>RevisionName</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.RevisionDate">
+            <example>0001-01-01Fu</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.DealName">
+            <example>DealName</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.DealType">
+            <example>DealType</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.SourceListId">
+            <example>SourceListId</example>
+        </member>
+        <member name="P:PoseidonApi.Models.TradeDTO.Side">
+            <example>Side</example>
+        </member>
+        <member name="P:PoseidonApi.Models.UserDTO.Id">
+            <example>0</example>
+        </member>
+        <member name="P:PoseidonApi.Models.UserDTO.Username">
+            <example>JohnDoe83</example>
+        </member>
+        <member name="P:PoseidonApi.Models.UserDTO.Fullname">
+            <example>John Doe</example>
+        </member>
+        <member name="P:PoseidonApi.Models.UserDTO.Password">
+            <example>sample_Pwd01*</example>
+        </member>
+        <member name="P:PoseidonApi.Models.UserDTO.Role">
+            <example>Employee</example>
+        </member>
+    </members>
+</doc>
