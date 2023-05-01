@@ -14,27 +14,27 @@ public abstract class ApiTests
         public void Should_return_ok_status_when_expected_authorized_user_login()
         {
             var authController = new PoseidonApi.Controllers.AuthController();
-            
+
             var result = authController.Login(new PoseidonApi.Models.LoginModel()
             {
                 UserName = "johndoe",
                 Password = "John_doe99$"
             });
-            
+
             Assert.That(result.GetType(), Is.EqualTo(typeof(OkObjectResult)));
         }
-        
+
         [Test]
         public void Should_return_unauthorized_status_when_unexpected_user_try_to_login()
         {
             var authController = new PoseidonApi.Controllers.AuthController();
-            
-            var result = authController.Login(new PoseidonApi.Models.LoginModel()
+
+            var result = authController.Login(new LoginModel()
             {
                 UserName = "randomGuy",
                 Password = "random_pwd*102"
             });
-            
+
             Assert.That(result.GetType(), Is.EqualTo(typeof(UnauthorizedResult)));
         }
     }
@@ -47,51 +47,103 @@ public abstract class ApiTests
         [Test]
         public void Should_return_all_bids_when_read_action()
         {
-            
-            var FakeDB = new ApiDbContext( new DbContextOptionsBuilder<ApiDbContext>()
-                .UseInMemoryDatabase(databaseName: "FakeDb")
-                .Options);
 
-            var bidList = new List<Bid>()
-            {
-                new Bid()
+            var dbContext = Setup.FakeDbContext();
+
+            var bidController = new PoseidonApi.Controllers.BidController(dbContext);
+
+            var getAllBids = bidController.GetBids();
+
+            Assert.That(getAllBids.Result.Value.Count(), Is.EqualTo(2));
+        }
+
+        [TestCase(1)]
+        [TestCase(13748)]
+        [Test]
+        public void Should_return_expected_bid_when_get_bid_by_id(int id)
+        {
+            var dbContext = Setup.FakeDbContext();
+
+            var bidController = new PoseidonApi.Controllers.BidController(dbContext);
+
+            var getBidById = bidController.GetBid(id);
+
+            Assert.That(getBidById.Result.Value.Id, Is.EqualTo(id));
+        }
+        
+        [Test]
+        public void Should_return_expected_newly_created_bid_when_post()
+        {
+            var dbContext = Setup.FakeDbContext();
+
+            var bidController = new PoseidonApi.Controllers.BidController(dbContext);
+
+            var bidToAdd = bidController.PostBid(
+                new BidDTO()
                 {
-                    Id = 1,
-                    Status = "Live",
+                    Status = "Testing",
                     BidListDate = DateTime.Now,
-                    Account = "Account1",
-                    Type = "Type1",
+                    Account = "TestAcocount",
+                    Type = "TestType2",
                     BidQuantity = 1,
                     AskQuantity = 1,
                     BidValue = 1,
                     Ask = 1,
-                    Benchmark = "Benchmark1",
-                    Commentary = "Commentary1",
-                    Security = "Security1",
-                    Trader = "Trader1",
-                    Book = "Book1",
-                    CreationName = "CreationName1",
+                    Benchmark = "TestBenchmark2",
+                    Commentary = "TestCommentary2",
+                    Security = "TestSecurity2",
+                    Trader = "TestTrader2",
+                    Book = "Book2",
+                    CreationName = "TestCreationName2",
                     CreationDate = DateTime.Now,
-                    RevisionName = "RevisionName1",
+                    RevisionName = "TestRevisionName2",
                     RevisionDate = DateTime.Now,
-                    DealName = "DealName1",
-                    DealType = "DealType1",
-                    SourceListId = "SourceListId1",
-                    Side = "Side1"
-                }
-            };
+                    DealName = "TestDealName2",
+                    DealType = "TestDealType2",
+                    SourceListId = "TestSourceListId2",
+                    Side = "TestSide2"
+                });
             
-            for (int i = 0; i < bidList.Count; i++)
-            {
-                FakeDB.Bids.Add(bidList[i]);
-            }
-            FakeDB.SaveChangesAsync();
+            Assert.That(bidToAdd.Result.Result.GetType(), Is.EqualTo(typeof(CreatedAtActionResult)));
+            Assert.That(dbContext.Bids.Count(), Is.EqualTo(3));
+            Assert.That(dbContext.Bids.ToList()[2].Id, Is.EqualTo(13749));
+        }
 
-            var bidController = new PoseidonApi.Controllers.BidController(FakeDB);
+        [Test]
+        public void Should_return_expected_updated_bid_when_put()
+        {
+            var dbContext = Setup.FakeDbContext();
 
-            var getBids = bidController.GetBids();
+            var bidController = new PoseidonApi.Controllers.BidController(dbContext);
 
-            Assert.That(getBids.Result.Value.Count(), Is.EqualTo(1));
+            var bidToUpdate = bidController.PutBid(1,
+                new BidDTO()
+                {
+                    Status = "Updated",
+                    BidListDate = DateTime.Now,
+                    Account = "UpdatedAccount1",
+                    Type = "UpdatedType1",
+                    BidQuantity = 1,
+                    AskQuantity = 1,
+                    BidValue = 1,
+                    Ask = 1,
+                    Benchmark = "UpdatedBenchmark1",
+                    Commentary = "UpdatedCommentary1",
+                    Security = "UpdatedSecurity1",
+                    Trader = "UpdatedTrader1",
+                    Book = "UpdatedBook1",
+                    CreationName = "UpdatedCreationName1",
+                    CreationDate = DateTime.Now,
+                    RevisionName = "UpdatedRevisionName1",
+                    RevisionDate = DateTime.Now,
+                    DealName = "UpdatedDealName1",
+                    DealType = "UpdatedDealType1",
+                    SourceListId = "UpdatedSourceListId1",
+                    Side = "UpdatedSide1"
+                });
+            Assert.That(bidToUpdate.Result.GetType(), Is.EqualTo(typeof(OkObjectResult)));
+            Assert.That(dbContext.Bids.Count(), Is.EqualTo(2)); //Ensure no POST
+            Assert.That(dbContext.Bids.ToList()[0].Status, Is.EqualTo("Updated"));
         }
     }
 }
