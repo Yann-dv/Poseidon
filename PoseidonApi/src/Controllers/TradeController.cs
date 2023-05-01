@@ -55,14 +55,16 @@ namespace PoseidonApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutTrade(long id, TradeDTO tradeDto)
+        public async Task<IActionResult> PutTrade(long id, TradeDTO tradeDto, ApiDbContext? dbContext)
         {
+            dbContext ??= _dbContext;
+            
             if (id != tradeDto.Id)
             {
                 return BadRequest();
             }
 
-            var trade = await _dbContext.Trades.FindAsync(id);
+            var trade = await dbContext.Trades.FindAsync(id);
             if (trade == null)
             {
                 return NotFound();
@@ -91,7 +93,7 @@ namespace PoseidonApi.Controllers
 
             try
             {
-                await _dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) when (!TradeExists(id))
             {

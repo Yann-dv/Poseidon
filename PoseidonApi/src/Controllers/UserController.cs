@@ -56,14 +56,16 @@ namespace PoseidonApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(long id, UserDTO userDto)
+        public async Task<IActionResult> UpdateUser(long id, UserDTO userDto, ApiDbContext? dbContext)
         {
+            dbContext ??= _dbContext;
+        
             if (id != userDto.Id)
             {
                 return BadRequest();
             }
 
-            var user = await _dbContext.Users.FindAsync(id);
+            var user = await dbContext.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -76,7 +78,7 @@ namespace PoseidonApi.Controllers
 
             try
             {
-                await _dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) when (!UserExists(id))
             {

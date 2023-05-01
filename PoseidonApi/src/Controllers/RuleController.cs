@@ -59,14 +59,16 @@ namespace PoseidonApi.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRule(long id, RuleDTO ruleDto)
+        public async Task<IActionResult> PutRule(long id, RuleDTO ruleDto, ApiDbContext? dbContext)
         {
+            dbContext ??= _dbContext;
+            
             if (id != ruleDto.Id)
             {
                 return BadRequest();
             }
 
-            var rule = await _dbContext.Rules.FindAsync(id);
+            var rule = await dbContext.Rules.FindAsync(id);
             if (rule == null)
             {
                 return NotFound();
@@ -81,7 +83,7 @@ namespace PoseidonApi.Controllers
 
             try
             {
-                await _dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) when (!RuleExists(id))
             {
