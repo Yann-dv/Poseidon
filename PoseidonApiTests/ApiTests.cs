@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 using PoseidonApi.Models;
 
@@ -15,7 +14,7 @@ public abstract class ApiTests
         {
             var authController = new PoseidonApi.Controllers.AuthController();
 
-            var result = authController.Login(new PoseidonApi.Models.LoginModel()
+            var result = authController.Login(new LoginModel()
             {
                 UserName = "johndoe",
                 Password = "John_doe99$"
@@ -42,19 +41,17 @@ public abstract class ApiTests
     [TestFixture]
     public class BidControllerTests
     {
-        private readonly ApiDbContext _dbContext;
-
+        private readonly ApiDbContext _testDbContext = Setup.FakeDbContext();
+        
         [Test]
         public void Should_return_all_bids_when_read_action()
         {
 
-            var dbContext = Setup.FakeDbContext();
-
-            var bidController = new PoseidonApi.Controllers.BidController(dbContext);
+            var bidController = new PoseidonApi.Controllers.BidController(_testDbContext);
 
             var getAllBids = bidController.GetBids();
 
-            Assert.That(getAllBids.Result.Value.Count(), Is.EqualTo(2));
+            Assert.That(getAllBids.Result.Value!.Count(), Is.EqualTo(2));
         }
 
         [TestCase(1)]
@@ -62,21 +59,17 @@ public abstract class ApiTests
         [Test]
         public void Should_return_expected_bid_when_get_bid_by_id(int id)
         {
-            var dbContext = Setup.FakeDbContext();
-
-            var bidController = new PoseidonApi.Controllers.BidController(dbContext);
+            var bidController = new PoseidonApi.Controllers.BidController(_testDbContext);
 
             var getBidById = bidController.GetBid(id);
 
-            Assert.That(getBidById.Result.Value.Id, Is.EqualTo(id));
+            Assert.That(getBidById.Result.Value!.Id, Is.EqualTo(id));
         }
         
         [Test]
         public void Should_return_expected_newly_created_bid_when_post()
         {
-            var dbContext = Setup.FakeDbContext();
-
-            var bidController = new PoseidonApi.Controllers.BidController(dbContext);
+            var bidController = new PoseidonApi.Controllers.BidController(_testDbContext);
 
             var bidToAdd = bidController.PostBid(
                 new BidDTO()
@@ -104,21 +97,20 @@ public abstract class ApiTests
                     Side = "TestSide2"
                 });
             
-            Assert.That(bidToAdd.Result.Result.GetType(), Is.EqualTo(typeof(CreatedAtActionResult)));
-            Assert.That(dbContext.Bids.Count(), Is.EqualTo(3));
-            Assert.That(dbContext.Bids.ToList()[2].Id, Is.EqualTo(13749));
+            Assert.That(bidToAdd.Result.Result!.GetType(), Is.EqualTo(typeof(CreatedAtActionResult)));
+            Assert.That(_testDbContext.Bids.Count(), Is.EqualTo(3));
+            Assert.That(_testDbContext.Bids.ToList()[2].Id, Is.EqualTo(13749));
         }
 
         [Test]
         public void Should_return_expected_updated_bid_when_put()
         {
-            var dbContext = Setup.FakeDbContext();
+            var bidController = new PoseidonApi.Controllers.BidController(_testDbContext);
 
-            var bidController = new PoseidonApi.Controllers.BidController(dbContext);
-
-            var bidToUpdate = bidController.PutBid(1,
+            var bidToUpdate = bidController.PutBid(id: 1,
                 new BidDTO()
                 {
+                    Id = 1,
                     Status = "Updated",
                     BidListDate = DateTime.Now,
                     Account = "UpdatedAccount1",
@@ -140,10 +132,22 @@ public abstract class ApiTests
                     DealType = "UpdatedDealType1",
                     SourceListId = "UpdatedSourceListId1",
                     Side = "UpdatedSide1"
-                });
-            Assert.That(bidToUpdate.Result.GetType(), Is.EqualTo(typeof(OkObjectResult)));
-            Assert.That(dbContext.Bids.Count(), Is.EqualTo(2)); //Ensure no POST
-            Assert.That(dbContext.Bids.ToList()[0].Status, Is.EqualTo("Updated"));
+                }, _testDbContext);
+            
+            Assert.That(bidToUpdate.Result.GetType(), Is.EqualTo(typeof(NoContentResult)));
+            Assert.That(_testDbContext.Bids.Count(), Is.EqualTo(2)); //Ensure no POST
+            Assert.That(_testDbContext.Bids.ToList()[0].Status, Is.EqualTo("Updated"));
+        }
+        
+        [Test]
+        public void Should_return_expected_deleted_bid_when_delete()
+        {
+            var bidController = new PoseidonApi.Controllers.BidController(_testDbContext);
+
+            var bidToDelete = bidController.DeleteBid(1);
+            
+            Assert.That(bidToDelete.Result.GetType(), Is.EqualTo(typeof(NoContentResult)));
+            Assert.That(_testDbContext.Bids.Count(), Is.EqualTo(1));
         }
     }
 }
