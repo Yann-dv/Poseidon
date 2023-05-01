@@ -61,14 +61,16 @@ namespace PoseidonApi.Controllers
         /// <param name="ratingDto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRating(long id, RatingDTO ratingDto)
+        public async Task<IActionResult> PutRating(long id, RatingDTO ratingDto, ApiDbContext? dbContext)
         {
+            dbContext ??= _dbContext;
+            
             if (id != ratingDto.Id)
             {
                 return BadRequest();
             }
 
-            var rating = await _dbContext.Ratings.FindAsync(id);
+            var rating = await dbContext.Ratings.FindAsync(id);
             if (rating == null)
             {
                 return NotFound();
@@ -81,7 +83,7 @@ namespace PoseidonApi.Controllers
 
             try
             {
-                await _dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) when (!RatingExists(id))
             {

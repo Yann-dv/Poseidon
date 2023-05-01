@@ -70,14 +70,16 @@ namespace PoseidonApi.Controllers
         /// <param name="bidDto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBid(long id, BidDTO bidDto)
+        public async Task<IActionResult> PutBid(long id, BidDTO bidDto, ApiDbContext? dbContext)
         {
+            dbContext ??= _dbContext;
+            
             if (id != bidDto.Id)
             {
                 return BadRequest();
             }
 
-            var bid = await _dbContext.Bids.FindAsync(id);
+            var bid = await dbContext.Bids.FindAsync(id);
             if (bid == null)
             {
                 return NotFound();
@@ -107,7 +109,7 @@ namespace PoseidonApi.Controllers
 
             try
             {
-                await _dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) when (!BidExists(id))
             {
