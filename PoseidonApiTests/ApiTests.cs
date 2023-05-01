@@ -1,7 +1,8 @@
+using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
 using PoseidonApi.Models;
-using Console = System.Console;
 
 namespace PoseidonApiTests;
 
