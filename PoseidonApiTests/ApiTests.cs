@@ -6,6 +6,9 @@ namespace PoseidonApiTests;
 
 public abstract class ApiTests
 {
+    private static readonly ApiDbContext TestDbContext = Setup.FakeDbContext();
+    
+
     [TestFixture]
     public class AuthControllerTests
     {
@@ -41,13 +44,11 @@ public abstract class ApiTests
     [TestFixture]
     public class BidControllerTests
     {
-        private readonly ApiDbContext _testDbContext = Setup.FakeDbContext();
-        
         [Test]
         public void Should_return_all_bids_when_read_action()
         {
 
-            var bidController = new PoseidonApi.Controllers.BidController(_testDbContext);
+            var bidController = new PoseidonApi.Controllers.BidController(TestDbContext);
 
             var getAllBids = bidController.GetBids();
 
@@ -59,17 +60,17 @@ public abstract class ApiTests
         [Test]
         public void Should_return_expected_bid_when_get_bid_by_id(int id)
         {
-            var bidController = new PoseidonApi.Controllers.BidController(_testDbContext);
+            var bidController = new PoseidonApi.Controllers.BidController(TestDbContext);
 
             var getBidById = bidController.GetBid(id);
 
             Assert.That(getBidById.Result.Value!.Id, Is.EqualTo(id));
         }
-        
+
         [Test]
         public void Should_return_expected_newly_created_bid_when_post()
         {
-            var bidController = new PoseidonApi.Controllers.BidController(_testDbContext);
+            var bidController = new PoseidonApi.Controllers.BidController(TestDbContext);
 
             var bidToAdd = bidController.PostBid(
                 new BidDTO()
@@ -96,16 +97,16 @@ public abstract class ApiTests
                     SourceListId = "TestSourceListId2",
                     Side = "TestSide2"
                 });
-            
+
             Assert.That(bidToAdd.Result.Result!.GetType(), Is.EqualTo(typeof(CreatedAtActionResult)));
-            Assert.That(_testDbContext.Bids.Count(), Is.EqualTo(3));
-            Assert.That(_testDbContext.Bids.ToList()[2].Id, Is.EqualTo(13749));
+            Assert.That(TestDbContext.Bids.Count(), Is.EqualTo(3));
+            Assert.That(TestDbContext.Bids.ToList()[2].Id, Is.EqualTo(13749));
         }
 
         [Test]
         public void Should_return_expected_updated_bid_when_put()
         {
-            var bidController = new PoseidonApi.Controllers.BidController(_testDbContext);
+            var bidController = new PoseidonApi.Controllers.BidController(TestDbContext);
 
             var bidToUpdate = bidController.PutBid(id: 1,
                 new BidDTO()
@@ -132,22 +133,100 @@ public abstract class ApiTests
                     DealType = "UpdatedDealType1",
                     SourceListId = "UpdatedSourceListId1",
                     Side = "UpdatedSide1"
-                }, _testDbContext);
-            
+                }, TestDbContext);
+
             Assert.That(bidToUpdate.Result.GetType(), Is.EqualTo(typeof(NoContentResult)));
-            Assert.That(_testDbContext.Bids.Count(), Is.EqualTo(2)); //Ensure no POST
-            Assert.That(_testDbContext.Bids.ToList()[0].Status, Is.EqualTo("Updated"));
+            Assert.That(TestDbContext.Bids.Count(), Is.EqualTo(2)); //Ensure no POST
+            Assert.That(TestDbContext.Bids.ToList().Find(c => c.Id == 1).Status, Is.EqualTo("Updated"));
         }
-        
+
         [Test]
         public void Should_return_expected_deleted_bid_when_delete()
         {
-            var bidController = new PoseidonApi.Controllers.BidController(_testDbContext);
+            var bidController = new PoseidonApi.Controllers.BidController(TestDbContext);
 
             var bidToDelete = bidController.DeleteBid(1);
-            
+
             Assert.That(bidToDelete.Result.GetType(), Is.EqualTo(typeof(NoContentResult)));
-            Assert.That(_testDbContext.Bids.Count(), Is.EqualTo(1));
+            Assert.That(TestDbContext.Bids.Count(), Is.EqualTo(1));
+        }
+
+    }
+
+    [TestFixture]
+    public class CurvePointControllerTests
+    {
+        
+        [Test]
+        public void Should_return_all_curve_points_when_read_action()
+        {
+            var curvePointController = new PoseidonApi.Controllers.CurvePointController(TestDbContext);
+
+            var getAllCurvePoints = curvePointController.GetCurvePoints();
+
+            Assert.That(getAllCurvePoints.Result.Value!.Count(), Is.EqualTo(2));
+        }
+
+        [TestCase(1)]
+        [TestCase(12)]
+        [Test]
+        public void Should_return_expected_curve_point_when_get_curve_point_by_id(int id)
+        {
+            var curvePointController = new PoseidonApi.Controllers.CurvePointController(TestDbContext);
+
+            var getCurvePointById = curvePointController.GetCurvePoint(id);
+
+            Assert.That(getCurvePointById.Result.Value!.Id, Is.EqualTo(id));
+        }
+
+        [Test]
+        public void Should_return_expected_newly_created_curve_point_when_post()
+        {
+            var curvePointController = new PoseidonApi.Controllers.CurvePointController(TestDbContext);
+
+            var curvePointToAdd = curvePointController.PostCurvePoint(
+                new CurvePointDTO()
+                {
+                    CurveId = 3,
+                    Term = 3,
+                    Value = 3,
+                    CreationDate = DateTime.Now
+                });
+
+            Assert.That(curvePointToAdd.Result.Result!.GetType(), Is.EqualTo(typeof(CreatedAtActionResult)));
+            Assert.That(TestDbContext.CurvePoints.Count(), Is.EqualTo(3));
+            Assert.That(TestDbContext.CurvePoints.ToList()[2].Id, Is.EqualTo(13));
+        }
+
+        [Test]
+        public void Should_return_expected_updated_curve_point_when_put()
+        {
+            var curvePointController = new PoseidonApi.Controllers.CurvePointController(TestDbContext);
+
+            var curvePointToUpdate = curvePointController.PutCurvePoint(id: 1,
+                new CurvePointDTO()
+                {
+                    Id = 1,
+                    CurveId = 999,
+                    Term = 1,
+                    Value = 1,
+                    CreationDate = DateTime.Now
+                }, TestDbContext);
+
+            Assert.That(curvePointToUpdate.Result.GetType(), Is.EqualTo(typeof(NoContentResult)));
+            Assert.That(TestDbContext.CurvePoints.Count(), Is.EqualTo(2)); //Ensure no POST
+            Assert.That(TestDbContext.CurvePoints.ToList().Find(c => c.Id == 1).CurveId, Is.EqualTo(999));
+        }
+
+        [Test]
+        public void Should_return_expected_deleted_curve_point_when_delete()
+        {
+            var curvePointController = new PoseidonApi.Controllers.CurvePointController(TestDbContext);
+
+            var curvePointToDelete = curvePointController.DeleteCurvePoint(1);
+
+            Assert.That(curvePointToDelete.Result.GetType(), Is.EqualTo(typeof(NoContentResult)));
+            Assert.That(TestDbContext.CurvePoints.Count(), Is.EqualTo(1));
         }
     }
 }

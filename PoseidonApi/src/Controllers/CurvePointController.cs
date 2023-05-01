@@ -71,14 +71,15 @@ namespace PoseidonApi.Controllers
         /// <param name="curvePointDto"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCurvePoint(long id, CurvePointDTO curvePointDto)
+        public async Task<IActionResult> PutCurvePoint(long id, CurvePointDTO curvePointDto, ApiDbContext? dbContext)
         {
+            dbContext ??= _dbContext;
             if (id != curvePointDto.Id)
             {
                 return BadRequest();
             }
 
-            var curvePoint = await _dbContext.CurvePoints.FindAsync(id);
+            var curvePoint = await dbContext.CurvePoints.FindAsync(id);
             if (curvePoint == null)
             {
                 return NotFound();
@@ -93,7 +94,7 @@ namespace PoseidonApi.Controllers
 
             try
             {
-                await _dbContext.SaveChangesAsync();
+                await dbContext.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException) when (!CurvePointExists(id))
             {
