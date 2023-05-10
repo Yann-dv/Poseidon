@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "5ae8293c-c089-4901-83db-3e26613515d9",
+		"name": "PoseidonAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25968411"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "https://localhost:5001/api/auth",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"johndoe\",\r\n  \"password\": \"John_doe99$\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/auth",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Bid",
+			"item": [
+				{
+					"name": "https://localhost:5001/api/Bid",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM3MzA3OTksImlzcyI6IkNvZGVNYXplIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSJ9.dugk0f7rtVft7iIUBpOf6PbqFiFtVcNgre4g3l7PrD8"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:5001/api/Bid",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"Bid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/api/Bid",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM3MzEzODQsImlzcyI6IkNvZGVNYXplIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSJ9.tfuKrlXiyXGMb_oXdgAMIU1LVGQx-5fjawWPMhH5e1c"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 0,\r\n  \"account\": \"AccountSample\",\r\n  \"type\": \"TypeSample\",\r\n  \"bidQuantity\": 23,\r\n  \"askQuantity\": 10,\r\n  \"bidValue\": 15,\r\n  \"ask\": 2,\r\n  \"benchmark\": \"BenchmarkSample\",\r\n  \"bidListDate\": \"2023-03-31\",\r\n  \"commentary\": \"CommentarySample\",\r\n  \"security\": \"SecuritySample\",\r\n  \"status\": \"StatusSample\",\r\n  \"trader\": \"TraderSample\",\r\n  \"book\": \"BookSample\",\r\n  \"creationName\": \"CreationNameSample\",\r\n  \"creationDate\": \"2023-03-01\",\r\n  \"revisionName\": \"RevisionNameSample\",\r\n  \"revisionDate\": \"2023-03-11\",\r\n  \"dealName\": \"DealNameSample\",\r\n  \"dealType\": \"DealTypeSample\",\r\n  \"sourceListId\": \"SourceListIdSample\",\r\n  \"side\": \"SideSample\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/Bid",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"Bid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/api/Bid/2",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accept",
+								"value": "application/json"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM3MzEzODQsImlzcyI6IkNvZGVNYXplIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSJ9.tfuKrlXiyXGMb_oXdgAMIU1LVGQx-5fjawWPMhH5e1c"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:5001/api/Bid/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"Bid",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/api/Bid/2",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM3MzEzODQsImlzcyI6IkNvZGVNYXplIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSJ9.tfuKrlXiyXGMb_oXdgAMIU1LVGQx-5fjawWPMhH5e1c"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"id\": 2,\r\n  \"account\": \"AccountSamplemMODIFIED\",\r\n  \"type\": \"TypeSampleMODIFIED\",\r\n  \"bidQuantity\": 233333099,\r\n  \"askQuantity\": 10,\r\n  \"bidValue\": 15,\r\n  \"ask\": 2,\r\n  \"benchmark\": \"BenchmarkSample\",\r\n  \"bidListDate\": \"2023-03-31\",\r\n  \"commentary\": \"CommentarySample\",\r\n  \"security\": \"SecuritySample\",\r\n  \"status\": \"StatusSample\",\r\n  \"trader\": \"TraderSample\",\r\n  \"book\": \"BookSample\",\r\n  \"creationName\": \"CreationNameSample\",\r\n  \"creationDate\": \"2023-03-01\",\r\n  \"revisionName\": \"RevisionNameSample\",\r\n  \"revisionDate\": \"2023-03-11\",\r\n  \"dealName\": \"DealNameSample\",\r\n  \"dealType\": \"DealTypeSample\",\r\n  \"sourceListId\": \"SourceListIdSample\",\r\n  \"side\": \"SideSample\"\r\n}"
+						},
+						"url": {
+							"raw": "https://localhost:5001/api/Bid/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"Bid",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "https://localhost:5001/api/Bid/2",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "accept",
+								"value": "*/*"
+							},
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODM3MzE2NDAsImlzcyI6IkNvZGVNYXplIiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NTAwMSJ9._6RXw0fQDSrtlIfspS4HvXMFu8y8BbEOSbp4x5fI4Iw"
+							}
+						],
+						"url": {
+							"raw": "https://localhost:5001/api/Bid/2",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "5001",
+							"path": [
+								"api",
+								"Bid",
+								"2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
