@@ -85,12 +85,14 @@ namespace PoseidonApi.Controllers
                 return NotFound();
             }
 
+            const double tolerance = 0.000000001;
+
             bid.Account = bid.Account != bidDto.Account ? bidDto.Account : bid.Account;
             bid.Type = bid.Type != bidDto.Type ? bidDto.Type : bid.Type;
-            bid.BidQuantity = bid.BidQuantity != bidDto.BidQuantity ? bidDto.BidQuantity : bid.BidQuantity;
-            bid.AskQuantity = bid.AskQuantity != bidDto.AskQuantity ? bidDto.AskQuantity : bid.AskQuantity;
-            bid.BidValue = bid.BidValue != bidDto.BidValue ? bidDto.BidValue : bid.BidValue;
-            bid.Ask = bid.Ask != bidDto.Ask ? bidDto.Ask : bid.Ask;
+            bid.BidQuantity = Math.Abs(bid.BidQuantity - bidDto.BidQuantity) > tolerance ? bidDto.BidQuantity : bid.BidQuantity;
+            bid.AskQuantity = Math.Abs(bid.AskQuantity - bidDto.AskQuantity) > tolerance ? bidDto.AskQuantity : bid.AskQuantity;
+            bid.BidValue = Math.Abs(bid.BidValue - bidDto.BidValue) > tolerance ? bidDto.BidValue : bid.BidValue;
+            bid.Ask = Math.Abs(bid.Ask - bidDto.Ask) > tolerance ? bidDto.Ask : bid.Ask;
             bid.Benchmark = bid.Benchmark != bidDto.Benchmark ? bidDto.Benchmark : bid.Benchmark;
             bid.BidListDate = bid.BidListDate != bidDto.BidListDate ? bidDto.BidListDate : bid.BidListDate;
             bid.Commentary = bid.Commentary != bidDto.Commentary ? bidDto.Commentary : bid.Commentary;
