@@ -71,7 +71,7 @@ namespace PoseidonApi.Controllers
                 return NotFound();
             }
             
-            user.Fullname = user.Fullname != userDto.Fullname ? userDto.Fullname : user.Fullname;
+            user.Fullname = (user.Fullname != userDto.Fullname ? userDto.Fullname : user.Fullname)!;
             user.Password = user.Password != userDto.Password ? userDto.Password : user.Password;
             user.Username = user.Username != userDto.Username ? userDto.Username : user.Username;
             user.Role = user.Role != userDto.Role ? userDto.Role : user.Role;
@@ -113,7 +113,7 @@ namespace PoseidonApi.Controllers
             var newUser = new User
             {
                 Username = userDto.Username.IsNullOrEmpty() ?  "EmptyUsername" : userDto.Username,
-                Fullname = userDto.Fullname.IsNullOrEmpty() ? "EmptyFullname" : userDto.Fullname,
+                Fullname = (userDto.Fullname.IsNullOrEmpty() ? "EmptyFullname" : userDto.Fullname)!,
                 Password = userDto.Password.IsNullOrEmpty() ? "EmptyPassword" : userDto.Password,
                 Role = userDto.Role.IsNullOrEmpty() ? "Employee" : userDto.Role
             };

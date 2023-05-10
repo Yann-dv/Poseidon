@@ -85,8 +85,10 @@ namespace PoseidonApi.Controllers
                 return NotFound();
             }
 
-            curvePoint.Term = curvePoint.Term != curvePointDto.Term ? curvePointDto.Term : curvePoint.Term;
-            curvePoint.Value = curvePoint.Value != curvePointDto.Value ? curvePointDto.Value : curvePoint.Value;
+            const double tolerance = 0.000000001;
+
+            curvePoint.Term = Math.Abs(curvePoint.Term - curvePointDto.Term) > tolerance ? curvePointDto.Term : curvePoint.Term;
+            curvePoint.Value = Math.Abs(curvePoint.Value - curvePointDto.Value) > tolerance ? curvePointDto.Value : curvePoint.Value;
             curvePoint.CurveId = curvePoint.CurveId != curvePointDto.CurveId ? curvePointDto.CurveId : curvePoint.CurveId;
             curvePoint.AsOfDate = curvePoint.AsOfDate != curvePointDto.AsOfDate ? curvePointDto.AsOfDate : curvePoint.AsOfDate;
             curvePoint.CreationDate = curvePoint.CreationDate != curvePointDto.CreationDate ? curvePointDto.CreationDate : curvePoint.CreationDate;
