@@ -13,4 +13,4 @@
   initialize a FakeDBContext with fake data for all entities.
 - Use 'dotnet test' command to run all the tests
 
-  <img src="https://github.com/Yann-dv/PoseidonApi/tree/main/img/test_results.png" width="70%">
+<img src="https://github.com/Yann-dv/PoseidonApi/blob/main/img/test_results.png" width="70%" alt="UnitTests results">
