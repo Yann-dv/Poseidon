@@ -4,7 +4,7 @@
 
 - Clone the repo : git clone https://github.com/Yann-dv/PoseidonApi.git
 - Build and run the app
-- Open your browser and go to https://localhost:5001/swagger/
+- Open your browser and go to https://localhost:5001/
 
 ## Usage
 
@@ -17,7 +17,7 @@
 If you try to use the API, without be logged in as an authorized user, you will get a 401 error code.
 <img src="https://github.com/Yann-dv/PoseidonApi/blob/main/img/auth0.png" width="70%" alt="Auth0">
 
-1. Go to https://localhost:5001/swagger/
+1. Go to https://localhost:5001/
 2. Open the Auth Controller
 3. Click on "Try it out"
    <img src="https://github.com/Yann-dv/PoseidonApi/blob/main/img/auth1.png" width="70%" alt="Auth1">
@@ -33,7 +33,7 @@ If you try to use the API, without be logged in as an authorized user, you will 
 8. You can now use the API
 
 ### Controllers
-1. Stay on https://localhost:5001/swagger/ endpoint
+1. Stay on https://localhost:5001/ endpoint
 2. Open the entity controller you want to use
 3. Choose the method you want to use
 4. Click on the "Try it out" button
@@ -53,6 +53,9 @@ If you prefer to test the API using Postman, Import the PoseidonAPI.postman_coll
 
 3. Use the methods as wanted.
 4. Only Bids Controller methods are created in the PoseidonAPI.postman_collection.json as example, but feel free to can create the others as you want.
+
+## Using Azure app
+You can also use the API on Azure : https://poseidon-api.azurewebsites.net/
 
 ## Testing
 
