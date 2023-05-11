@@ -48,11 +48,11 @@ If you prefer to test the API using Postman, Import the PoseidonAPI.postman_coll
 1. Import Json collection
    <img src="https://github.com/Yann-dv/PoseidonApi/blob/main/img/postman1.png" width="70%" alt="Postman1">
 
-2. First, launch the Aut POST method to get the token, copy and use it to replace the Authorization : Bearer token inside each request
+2. First, launch the Auth POST method to get the token, copy and use it to replace the Authorization : Bearer token inside each request
    <img src="https://github.com/Yann-dv/PoseidonApi/blob/main/img/postman2.png" width="70%" alt="Postman2">
 
 3. Use the methods as wanted.
-4. Only Bids methodes are created in the PoseidonAPI.postman_collection.json as example, but feel free to can create the others as you want.
+4. Only Bids Controller methods are created in the PoseidonAPI.postman_collection.json as example, but feel free to can create the others as you want.
 
 ## Testing
 
@@ -62,3 +62,9 @@ If you prefer to test the API using Postman, Import the PoseidonAPI.postman_coll
 - Use 'dotnet test' command to run all the tests
 
 <img src="https://github.com/Yann-dv/PoseidonApi/blob/main/img/test_results.png" width="70%" alt="UnitTests results">
+
+
+## About Security
+
+- The application is user-authorized based. Only authorized users can use the API, and only the admin cann add new users.
+- All Passwords are stored hashed, not in clear text. They also follow the OWASP password guidelines (using regex and validation tags)
