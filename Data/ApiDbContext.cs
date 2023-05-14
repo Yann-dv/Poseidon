@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using PoseidonApi.Models;
 
-namespace PoseidonApi.Models
+namespace PoseidonApi.Data
 {
     public class ApiDbContext : DbContext
     {

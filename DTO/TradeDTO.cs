@@ -1,4 +1,4 @@
-namespace PoseidonApi.Models;
+namespace PoseidonApi.DTO;
 
 public class TradeDTO
 {
@@ -50,7 +50,7 @@ public class TradeDTO
     /// <example>RevisionName</example>
     public string RevisionName { get; set; }
     
-    /// <example>0001-01-01Fu</example>
+    /// <example>0001-01-01</example>
     public DateTime RevisionDate { get; set; }
     
     /// <example>DealName</example>

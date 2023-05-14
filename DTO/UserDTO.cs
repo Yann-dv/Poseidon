@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace PoseidonApi.Models;
+namespace PoseidonApi.DTO;
 
 public class UserDTO
 {

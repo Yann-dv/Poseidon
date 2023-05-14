@@ -4,6 +4,8 @@ using PoseidonApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using PoseidonApi.Data;
+using PoseidonApi.DTO;
 
 
 namespace PoseidonApi.Controllers

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NUnit.Framework;
+using PoseidonApi.Data;
+using PoseidonApi.DTO;
 using PoseidonApi.Models;
 
 namespace PoseidonApiTests;

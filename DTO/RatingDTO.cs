@@ -1,4 +1,4 @@
-namespace PoseidonApi.Models;
+namespace PoseidonApi.DTO;
 
 public class RatingDTO
 {
